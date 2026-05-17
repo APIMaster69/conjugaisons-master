@@ -1,9 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Jeu de conjugaison — API Master</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -172,10 +172,7 @@ const MODES_TEMPS = {
   "Gérondif":     ["Présent","Passé"]
 };
 
-// ─── BASE DE DONNÉES (Indicatif Présent + Passé composé pour tous, + quelques autres) ─
-// Format clé : "Indicatif|Présent", "Indicatif|Imparfait", etc.
 const DB = {};
-
 function addQ(verbe, mode, temps, pronoms) {
   const key = mode+'|'+temps;
   if(!DB[verbe]) DB[verbe] = {};
@@ -184,711 +181,228 @@ function addQ(verbe, mode, temps, pronoms) {
 }
 
 // ── PARLER ──
-addQ("parler","Indicatif","Présent",[
-  {p:"je",c:"parle",d:["parles","parlons","parlent"]},
-  {p:"tu",c:"parles",d:["parle","parlons","parlent"]},
-  {p:"il",c:"parle",d:["parles","parlons","parlent"]},
-  {p:"nous",c:"parlons",d:["parlez","parlent","parle"]},
-  {p:"vous",c:"parlez",d:["parlons","parlent","parles"]},
-  {p:"ils",c:"parlent",d:["parlez","parlons","parle"]}
-]);
-addQ("parler","Indicatif","Imparfait",[
-  {p:"je",c:"parlais",d:["parlait","parlions","parle"]},
-  {p:"il",c:"parlait",d:["parlais","parlions","parlera"]},
-  {p:"nous",c:"parlions",d:["parliez","parlaient","parlais"]}
-]);
-addQ("parler","Indicatif","Passé composé",[
-  {p:"j'",c:"ai parlé",d:["a parlé","avons parlé","parlais"]},
-  {p:"nous",c:"avons parlé",d:["avez parlé","ont parlé","a parlé"]},
-  {p:"ils",c:"ont parlé",d:["avez parlé","avons parlé","a parlé"]}
-]);
-addQ("parler","Indicatif","Passé simple",[
-  {p:"je",c:"parlai",d:["parlas","parla","parlèrent"]},
-  {p:"il",c:"parla",d:["parlai","parlas","parlèrent"]},
-  {p:"ils",c:"parlèrent",d:["parla","parlâmes","parlâtes"]}
-]);
-addQ("parler","Indicatif","Futur simple",[
-  {p:"je",c:"parlerai",d:["parleras","parlera","parlerons"]},
-  {p:"tu",c:"parleras",d:["parlerai","parlera","parlerez"]},
-  {p:"ils",c:"parleront",d:["parlerez","parlerons","parlera"]}
-]);
-addQ("parler","Indicatif","Plus-que-parfait",[
-  {p:"j'",c:"avais parlé",d:["avait parlé","avions parlé","avais mangé"]},
-  {p:"il",c:"avait parlé",d:["avais parlé","avions parlé","aura parlé"]}
-]);
-addQ("parler","Subjonctif","Présent",[
-  {p:"que je",c:"parle",d:["parles","parlions","parlent"]},
-  {p:"qu'il",c:"parle",d:["parles","parlions","parlent"]},
-  {p:"que nous",c:"parlions",d:["parliez","parlent","parlons"]}
-]);
-addQ("parler","Conditionnel","Présent",[
-  {p:"je",c:"parlerais",d:["parlerait","parlerions","parlerez"]},
-  {p:"il",c:"parlerait",d:["parlerais","parlerions","parlera"]}
-]);
+addQ("parler","Indicatif","Présent",[{p:"je",c:"parle",d:["parles","parlons","parlent"]},{p:"tu",c:"parles",d:["parle","parlons","parlent"]},{p:"il",c:"parle",d:["parles","parlons","parlent"]},{p:"nous",c:"parlons",d:["parlez","parlent","parle"]},{p:"vous",c:"parlez",d:["parlons","parlent","parles"]},{p:"ils",c:"parlent",d:["parlez","parlons","parle"]}]);
+addQ("parler","Indicatif","Imparfait",[{p:"je",c:"parlais",d:["parlait","parlions","parle"]},{p:"il",c:"parlait",d:["parlais","parlions","parlera"]},{p:"nous",c:"parlions",d:["parliez","parlaient","parlais"]}]);
+addQ("parler","Indicatif","Passé composé",[{p:"j'",c:"ai parlé",d:["a parlé","avons parlé","parlais"]},{p:"nous",c:"avons parlé",d:["avez parlé","ont parlé","a parlé"]},{p:"ils",c:"ont parlé",d:["avez parlé","avons parlé","a parlé"]}]);
+addQ("parler","Indicatif","Passé simple",[{p:"je",c:"parlai",d:["parlas","parla","parlèrent"]},{p:"il",c:"parla",d:["parlai","parlas","parlèrent"]},{p:"ils",c:"parlèrent",d:["parla","parlâmes","parlâtes"]}]);
+addQ("parler","Indicatif","Futur simple",[{p:"je",c:"parlerai",d:["parleras","parlera","parlerons"]},{p:"tu",c:"parleras",d:["parlerai","parlera","parlerez"]},{p:"ils",c:"parleront",d:["parlerez","parlerons","parlera"]}]);
+addQ("parler","Indicatif","Plus-que-parfait",[{p:"j'",c:"avais parlé",d:["avait parlé","avions parlé","avais mangé"]},{p:"il",c:"avait parlé",d:["avais parlé","avions parlé","aura parlé"]}]);
+addQ("parler","Subjonctif","Présent",[{p:"que je",c:"parle",d:["parles","parlions","parlent"]},{p:"qu'il",c:"parle",d:["parles","parlions","parlent"]},{p:"que nous",c:"parlions",d:["parliez","parlent","parlons"]}]);
+addQ("parler","Conditionnel","Présent",[{p:"je",c:"parlerais",d:["parlerait","parlerions","parlerez"]},{p:"il",c:"parlerait",d:["parlerais","parlerions","parlera"]}]);
 addQ("parler","Participe","Présent",[{p:"en",c:"parlant",d:["parlé","parlant","avoir parlé"]}]);
 addQ("parler","Participe","Passé",[{p:"(avoir)",c:"parlé",d:["parlant","parler","parlais"]}]);
 addQ("parler","Infinitif","Présent",[{p:"—",c:"parler",d:["parlant","parlé","parlons"]}]);
 
 // ── MANGER ──
-addQ("manger","Indicatif","Présent",[
-  {p:"je",c:"mange",d:["manges","mangeons","mangez"]},
-  {p:"nous",c:"mangeons",d:["mangez","mangent","mangons"]},
-  {p:"ils",c:"mangent",d:["mangeons","mangez","mange"]}
-]);
-addQ("manger","Indicatif","Imparfait",[
-  {p:"je",c:"mangeais",d:["mangeait","mangions","mange"]},
-  {p:"nous",c:"mangions",d:["mangiez","mangeaient","mangeais"]}
-]);
-addQ("manger","Indicatif","Passé composé",[
-  {p:"j'",c:"ai mangé",d:["a mangé","avons mangé","mangeais"]},
-  {p:"nous",c:"avons mangé",d:["avez mangé","ont mangé","a mangé"]}
-]);
-addQ("manger","Indicatif","Futur simple",[
-  {p:"je",c:"mangerai",d:["mangeras","mangera","mangerons"]},
-  {p:"ils",c:"mangeront",d:["mangerez","mangerons","mangera"]}
-]);
-addQ("manger","Subjonctif","Présent",[
-  {p:"que je",c:"mange",d:["manges","mangions","mangent"]},
-  {p:"que nous",c:"mangions",d:["mangiez","mangent","mangeons"]}
-]);
-addQ("manger","Conditionnel","Présent",[
-  {p:"je",c:"mangerais",d:["mangerait","mangerions","mangerez"]},
-  {p:"il",c:"mangerait",d:["mangerais","mangerions","mangera"]}
-]);
+addQ("manger","Indicatif","Présent",[{p:"je",c:"mange",d:["manges","mangeons","mangez"]},{p:"nous",c:"mangeons",d:["mangez","mangent","mangons"]},{p:"ils",c:"mangent",d:["mangeons","mangez","mange"]}]);
+addQ("manger","Indicatif","Imparfait",[{p:"je",c:"mangeais",d:["mangeait","mangions","mange"]},{p:"nous",c:"mangions",d:["mangiez","mangeaient","mangeais"]}]);
+addQ("manger","Indicatif","Passé composé",[{p:"j'",c:"ai mangé",d:["a mangé","avons mangé","mangeais"]},{p:"nous",c:"avons mangé",d:["avez mangé","ont mangé","a mangé"]}]);
+addQ("manger","Indicatif","Futur simple",[{p:"je",c:"mangerai",d:["mangeras","mangera","mangerons"]},{p:"ils",c:"mangeront",d:["mangerez","mangerons","mangera"]}]);
+addQ("manger","Subjonctif","Présent",[{p:"que je",c:"mange",d:["manges","mangions","mangent"]},{p:"que nous",c:"mangions",d:["mangiez","mangent","mangeons"]}]);
+addQ("manger","Conditionnel","Présent",[{p:"je",c:"mangerais",d:["mangerait","mangerions","mangerez"]},{p:"il",c:"mangerait",d:["mangerais","mangerions","mangera"]}]);
 addQ("manger","Participe","Présent",[{p:"en",c:"mangeant",d:["mangé","mangeons","avoir mangé"]}]);
 addQ("manger","Participe","Passé",[{p:"(avoir)",c:"mangé",d:["mangeant","manger","mangeais"]}]);
 
 // ── CHANTER ──
-addQ("chanter","Indicatif","Présent",[
-  {p:"je",c:"chante",d:["chantes","chantons","chantez"]},
-  {p:"nous",c:"chantons",d:["chantez","chantent","chante"]},
-  {p:"ils",c:"chantent",d:["chantons","chantez","chante"]}
-]);
-addQ("chanter","Indicatif","Imparfait",[
-  {p:"je",c:"chantais",d:["chantait","chantions","chante"]},
-  {p:"il",c:"chantait",d:["chantais","chantions","chantera"]}
-]);
-addQ("chanter","Indicatif","Passé composé",[
-  {p:"j'",c:"ai chanté",d:["a chanté","avons chanté","chantais"]},
-  {p:"elle",c:"a chanté",d:["ai chanté","as chanté","ont chanté"]}
-]);
-addQ("chanter","Indicatif","Futur simple",[
-  {p:"je",c:"chanterai",d:["chanteras","chantera","chanterons"]},
-  {p:"ils",c:"chanteront",d:["chanterez","chanterons","chantera"]}
-]);
-addQ("chanter","Subjonctif","Présent",[
-  {p:"que je",c:"chante",d:["chantes","chantions","chantent"]},
-  {p:"que nous",c:"chantions",d:["chantiez","chantent","chantons"]}
-]);
-addQ("chanter","Conditionnel","Présent",[
-  {p:"je",c:"chanterais",d:["chanterait","chanterions","chanterez"]}
-]);
+addQ("chanter","Indicatif","Présent",[{p:"je",c:"chante",d:["chantes","chantons","chantez"]},{p:"nous",c:"chantons",d:["chantez","chantent","chante"]},{p:"ils",c:"chantent",d:["chantons","chantez","chante"]}]);
+addQ("chanter","Indicatif","Imparfait",[{p:"je",c:"chantais",d:["chantait","chantions","chante"]},{p:"il",c:"chantait",d:["chantais","chantions","chantera"]}]);
+addQ("chanter","Indicatif","Passé composé",[{p:"j'",c:"ai chanté",d:["a chanté","avons chanté","chantais"]},{p:"elle",c:"a chanté",d:["ai chanté","as chanté","ont chanté"]}]);
+addQ("chanter","Indicatif","Futur simple",[{p:"je",c:"chanterai",d:["chanteras","chantera","chanterons"]},{p:"ils",c:"chanteront",d:["chanterez","chanterons","chantera"]}]);
+addQ("chanter","Subjonctif","Présent",[{p:"que je",c:"chante",d:["chantes","chantions","chantent"]},{p:"que nous",c:"chantions",d:["chantiez","chantent","chantons"]}]);
+addQ("chanter","Conditionnel","Présent",[{p:"je",c:"chanterais",d:["chanterait","chanterions","chanterez"]}]);
 addQ("chanter","Participe","Passé",[{p:"(avoir)",c:"chanté",d:["chantant","chanter","chantais"]}]);
 addQ("chanter","Participe","Présent",[{p:"en",c:"chantant",d:["chanté","chantons","avoir chanté"]}]);
 
 // ── JOUER ──
-addQ("jouer","Indicatif","Présent",[
-  {p:"je",c:"joue",d:["joues","jouons","jouez"]},
-  {p:"tu",c:"joues",d:["joue","jouons","jouent"]},
-  {p:"elles",c:"jouent",d:["jouez","jouons","joue"]}
-]);
-addQ("jouer","Indicatif","Imparfait",[
-  {p:"je",c:"jouais",d:["jouait","jouions","joue"]},
-  {p:"il",c:"jouait",d:["jouais","jouions","jouera"]}
-]);
-addQ("jouer","Indicatif","Passé composé",[
-  {p:"j'",c:"ai joué",d:["a joué","avons joué","jouais"]},
-  {p:"elles",c:"ont joué",d:["avez joué","avons joué","a joué"]}
-]);
-addQ("jouer","Indicatif","Futur simple",[
-  {p:"je",c:"jouerai",d:["joueras","jouera","jouerons"]},
-  {p:"ils",c:"joueront",d:["jouerez","jouerons","jouera"]}
-]);
-addQ("jouer","Subjonctif","Présent",[
-  {p:"que je",c:"joue",d:["joues","jouions","jouent"]},
-  {p:"que nous",c:"jouions",d:["jouiez","jouent","jouons"]}
-]);
-addQ("jouer","Conditionnel","Présent",[
-  {p:"je",c:"jouerais",d:["jouerait","jouerions","jouerez"]}
-]);
+addQ("jouer","Indicatif","Présent",[{p:"je",c:"joue",d:["joues","jouons","jouez"]},{p:"tu",c:"joues",d:["joue","jouons","jouent"]},{p:"elles",c:"jouent",d:["jouez","jouons","joue"]}]);
+addQ("jouer","Indicatif","Imparfait",[{p:"je",c:"jouais",d:["jouait","jouions","joue"]},{p:"il",c:"jouait",d:["jouais","jouions","jouera"]}]);
+addQ("jouer","Indicatif","Passé composé",[{p:"j'",c:"ai joué",d:["a joué","avons joué","jouais"]},{p:"elles",c:"ont joué",d:["avez joué","avons joué","a joué"]}]);
+addQ("jouer","Indicatif","Futur simple",[{p:"je",c:"jouerai",d:["joueras","jouera","jouerons"]},{p:"ils",c:"joueront",d:["jouerez","jouerons","jouera"]}]);
+addQ("jouer","Subjonctif","Présent",[{p:"que je",c:"joue",d:["joues","jouions","jouent"]},{p:"que nous",c:"jouions",d:["jouiez","jouent","jouons"]}]);
+addQ("jouer","Conditionnel","Présent",[{p:"je",c:"jouerais",d:["jouerait","jouerions","jouerez"]}]);
 addQ("jouer","Participe","Passé",[{p:"(avoir)",c:"joué",d:["jouant","jouer","jouais"]}]);
 
 // ── ARRIVER ──
-addQ("arriver","Indicatif","Présent",[
-  {p:"j'",c:"arrive",d:["arrives","arrivons","arrivent"]},
-  {p:"tu",c:"arrives",d:["arrive","arrivons","arrivent"]},
-  {p:"nous",c:"arrivons",d:["arrivez","arrivent","arrive"]}
-]);
-addQ("arriver","Indicatif","Imparfait",[
-  {p:"j'",c:"arrivais",d:["arrivait","arrivions","arrive"]},
-  {p:"il",c:"arrivait",d:["arrivais","arrivions","arrivera"]}
-]);
-addQ("arriver","Indicatif","Passé composé",[
-  {p:"je",c:"suis arrivé",d:["suis arrivée","es arrivé","est arrivé"]},
-  {p:"il",c:"est arrivé",d:["suis arrivé","es arrivé","sont arrivés"]},
-  {p:"nous",c:"sommes arrivés",d:["êtes arrivés","sont arrivés","avons arrivé"]}
-]);
-addQ("arriver","Indicatif","Futur simple",[
-  {p:"j'",c:"arriverai",d:["arriveras","arrivera","arriverons"]},
-  {p:"ils",c:"arriveront",d:["arriverez","arriverons","arrivera"]}
-]);
-addQ("arriver","Subjonctif","Présent",[
-  {p:"que j'",c:"arrive",d:["arrives","arrivions","arrivent"]}
-]);
-addQ("arriver","Conditionnel","Présent",[
-  {p:"j'",c:"arriverais",d:["arriverait","arriverions","arriverez"]}
-]);
+addQ("arriver","Indicatif","Présent",[{p:"j'",c:"arrive",d:["arrives","arrivons","arrivent"]},{p:"tu",c:"arrives",d:["arrive","arrivons","arrivent"]},{p:"nous",c:"arrivons",d:["arrivez","arrivent","arrive"]}]);
+addQ("arriver","Indicatif","Imparfait",[{p:"j'",c:"arrivais",d:["arrivait","arrivions","arrive"]},{p:"il",c:"arrivait",d:["arrivais","arrivions","arrivera"]}]);
+addQ("arriver","Indicatif","Passé composé",[{p:"je",c:"suis arrivé",d:["suis arrivée","es arrivé","est arrivé"]},{p:"il",c:"est arrivé",d:["suis arrivé","es arrivé","sont arrivés"]},{p:"nous",c:"sommes arrivés",d:["êtes arrivés","sont arrivés","avons arrivé"]}]);
+addQ("arriver","Indicatif","Futur simple",[{p:"j'",c:"arriverai",d:["arriveras","arrivera","arriverons"]},{p:"ils",c:"arriveront",d:["arriverez","arriverons","arrivera"]}]);
+addQ("arriver","Subjonctif","Présent",[{p:"que j'",c:"arrive",d:["arrives","arrivions","arrivent"]}]);
+addQ("arriver","Conditionnel","Présent",[{p:"j'",c:"arriverais",d:["arriverait","arriverions","arriverez"]}]);
 addQ("arriver","Participe","Passé",[{p:"(être)",c:"arrivé",d:["arrivant","arriver","arrivais"]}]);
 addQ("arriver","Participe","Présent",[{p:"en",c:"arrivant",d:["arrivé","arrivons","être arrivé"]}]);
 
 // ── TRAVAILLER ──
-addQ("travailler","Indicatif","Présent",[
-  {p:"je",c:"travaille",d:["travailles","travaillons","travaillent"]},
-  {p:"nous",c:"travaillons",d:["travaillez","travaillent","travaille"]},
-  {p:"ils",c:"travaillent",d:["travaillez","travaillons","travaille"]}
-]);
-addQ("travailler","Indicatif","Imparfait",[
-  {p:"je",c:"travaillais",d:["travaillait","travaillions","travaille"]},
-  {p:"nous",c:"travaillions",d:["travailliez","travaillaient","travaillais"]}
-]);
-addQ("travailler","Indicatif","Passé composé",[
-  {p:"j'",c:"ai travaillé",d:["a travaillé","avons travaillé","travaillais"]},
-  {p:"nous",c:"avons travaillé",d:["avez travaillé","ont travaillé","a travaillé"]}
-]);
-addQ("travailler","Indicatif","Futur simple",[
-  {p:"je",c:"travaillerai",d:["travailleras","travaillera","travaillerons"]},
-  {p:"ils",c:"travailleront",d:["travaillerez","travaillerons","travaillera"]}
-]);
-addQ("travailler","Subjonctif","Présent",[
-  {p:"que je",c:"travaille",d:["travailles","travaillions","travaillent"]}
-]);
-addQ("travailler","Conditionnel","Présent",[
-  {p:"je",c:"travaillerais",d:["travaillerait","travaillerions","travaillerez"]}
-]);
+addQ("travailler","Indicatif","Présent",[{p:"je",c:"travaille",d:["travailles","travaillons","travaillent"]},{p:"nous",c:"travaillons",d:["travaillez","travaillent","travaille"]},{p:"ils",c:"travaillent",d:["travaillez","travaillons","travaille"]}]);
+addQ("travailler","Indicatif","Imparfait",[{p:"je",c:"travaillais",d:["travaillait","travaillions","travaille"]},{p:"nous",c:"travaillions",d:["travailliez","travaillaient","travaillais"]}]);
+addQ("travailler","Indicatif","Passé composé",[{p:"j'",c:"ai travaillé",d:["a travaillé","avons travaillé","travaillais"]},{p:"nous",c:"avons travaillé",d:["avez travaillé","ont travaillé","a travaillé"]}]);
+addQ("travailler","Indicatif","Futur simple",[{p:"je",c:"travaillerai",d:["travailleras","travaillera","travaillerons"]},{p:"ils",c:"travailleront",d:["travaillerez","travaillerons","travaillera"]}]);
+addQ("travailler","Subjonctif","Présent",[{p:"que je",c:"travaille",d:["travailles","travaillions","travaillent"]}]);
+addQ("travailler","Conditionnel","Présent",[{p:"je",c:"travaillerais",d:["travaillerait","travaillerions","travaillerez"]}]);
 addQ("travailler","Participe","Passé",[{p:"(avoir)",c:"travaillé",d:["travaillant","travailler","travaillais"]}]);
 
 // ── ACCEPTER ──
-addQ("accepter","Indicatif","Présent",[
-  {p:"j'",c:"accepte",d:["acceptes","acceptons","acceptent"]},
-  {p:"nous",c:"acceptons",d:["acceptez","acceptent","accepte"]},
-  {p:"ils",c:"acceptent",d:["acceptez","acceptons","accepte"]}
-]);
-addQ("accepter","Indicatif","Passé composé",[
-  {p:"j'",c:"ai accepté",d:["a accepté","avons accepté","acceptais"]},
-  {p:"nous",c:"avons accepté",d:["avez accepté","ont accepté","a accepté"]}
-]);
-addQ("accepter","Indicatif","Futur simple",[
-  {p:"j'",c:"accepterai",d:["accepteras","acceptera","accepterons"]},
-  {p:"ils",c:"accepteront",d:["accepterez","accepterons","acceptera"]}
-]);
-addQ("accepter","Subjonctif","Présent",[
-  {p:"que j'",c:"accepte",d:["acceptes","acceptions","acceptent"]}
-]);
-addQ("accepter","Conditionnel","Présent",[
-  {p:"j'",c:"accepterais",d:["accepterait","accepterions","accepterez"]}
-]);
+addQ("accepter","Indicatif","Présent",[{p:"j'",c:"accepte",d:["acceptes","acceptons","acceptent"]},{p:"nous",c:"acceptons",d:["acceptez","acceptent","accepte"]},{p:"ils",c:"acceptent",d:["acceptez","acceptons","accepte"]}]);
+addQ("accepter","Indicatif","Passé composé",[{p:"j'",c:"ai accepté",d:["a accepté","avons accepté","acceptais"]},{p:"nous",c:"avons accepté",d:["avez accepté","ont accepté","a accepté"]}]);
+addQ("accepter","Indicatif","Futur simple",[{p:"j'",c:"accepterai",d:["accepteras","acceptera","accepterons"]},{p:"ils",c:"accepteront",d:["accepterez","accepterons","acceptera"]}]);
+addQ("accepter","Subjonctif","Présent",[{p:"que j'",c:"accepte",d:["acceptes","acceptions","acceptent"]}]);
+addQ("accepter","Conditionnel","Présent",[{p:"j'",c:"accepterais",d:["accepterait","accepterions","accepterez"]}]);
 
 // ── TOURNER ──
-addQ("tourner","Indicatif","Présent",[
-  {p:"je",c:"tourne",d:["tournes","tournons","tournent"]},
-  {p:"nous",c:"tournons",d:["tournez","tournent","tourne"]},
-  {p:"ils",c:"tournent",d:["tournez","tournons","tourne"]}
-]);
-addQ("tourner","Indicatif","Passé composé",[
-  {p:"j'",c:"ai tourné",d:["a tourné","avons tourné","tournais"]},
-  {p:"nous",c:"avons tourné",d:["avez tourné","ont tourné","a tourné"]}
-]);
-addQ("tourner","Indicatif","Futur simple",[
-  {p:"je",c:"tournerai",d:["tourneras","tournera","tournerons"]},
-  {p:"ils",c:"tourneront",d:["tournerez","tournerons","tournera"]}
-]);
-addQ("tourner","Subjonctif","Présent",[
-  {p:"que je",c:"tourne",d:["tournes","tournions","tournent"]}
-]);
-addQ("tourner","Conditionnel","Présent",[
-  {p:"je",c:"tournerais",d:["tournerait","tournerions","tournerez"]}
-]);
+addQ("tourner","Indicatif","Présent",[{p:"je",c:"tourne",d:["tournes","tournons","tournent"]},{p:"nous",c:"tournons",d:["tournez","tournent","tourne"]},{p:"ils",c:"tournent",d:["tournez","tournons","tourne"]}]);
+addQ("tourner","Indicatif","Passé composé",[{p:"j'",c:"ai tourné",d:["a tourné","avons tourné","tournais"]},{p:"nous",c:"avons tourné",d:["avez tourné","ont tourné","a tourné"]}]);
+addQ("tourner","Indicatif","Futur simple",[{p:"je",c:"tournerai",d:["tourneras","tournera","tournerons"]},{p:"ils",c:"tourneront",d:["tournerez","tournerons","tournera"]}]);
+addQ("tourner","Subjonctif","Présent",[{p:"que je",c:"tourne",d:["tournes","tournions","tournent"]}]);
+addQ("tourner","Conditionnel","Présent",[{p:"je",c:"tournerais",d:["tournerait","tournerions","tournerez"]}]);
 addQ("tourner","Participe","Passé",[{p:"(avoir)",c:"tourné",d:["tournant","tourner","tournais"]}]);
 
 // ── FINIR ──
-addQ("finir","Indicatif","Présent",[
-  {p:"je",c:"finis",d:["finit","finissons","finissez"]},
-  {p:"tu",c:"finis",d:["finit","finissons","finissent"]},
-  {p:"il",c:"finit",d:["finis","finissons","finissent"]},
-  {p:"nous",c:"finissons",d:["finissez","finissent","finit"]},
-  {p:"vous",c:"finissez",d:["finissons","finissent","finis"]},
-  {p:"ils",c:"finissent",d:["finissez","finissons","finit"]}
-]);
-addQ("finir","Indicatif","Imparfait",[
-  {p:"je",c:"finissais",d:["finissait","finissions","finis"]},
-  {p:"il",c:"finissait",d:["finissais","finissions","finira"]}
-]);
-addQ("finir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai fini",d:["a fini","avons fini","finissais"]},
-  {p:"ils",c:"ont fini",d:["avez fini","avons fini","a fini"]}
-]);
-addQ("finir","Indicatif","Passé simple",[
-  {p:"je",c:"finis",d:["finit","finîmes","finirent"]},
-  {p:"il",c:"finit",d:["finis","finîmes","finirent"]},
-  {p:"ils",c:"finirent",d:["finit","finîtes","finîmes"]}
-]);
-addQ("finir","Indicatif","Futur simple",[
-  {p:"je",c:"finirai",d:["finiras","finira","finirons"]},
-  {p:"ils",c:"finiront",d:["finirez","finirons","finira"]}
-]);
-addQ("finir","Indicatif","Plus-que-parfait",[
-  {p:"j'",c:"avais fini",d:["avait fini","avions fini","aurai fini"]},
-  {p:"il",c:"avait fini",d:["avais fini","avions fini","aura fini"]}
-]);
-addQ("finir","Subjonctif","Présent",[
-  {p:"que je",c:"finisse",d:["finisses","finissions","finissent"]},
-  {p:"que nous",c:"finissions",d:["finissiez","finissent","finissons"]}
-]);
-addQ("finir","Conditionnel","Présent",[
-  {p:"je",c:"finirais",d:["finirait","finirions","finirez"]},
-  {p:"il",c:"finirait",d:["finirais","finirions","finira"]}
-]);
+addQ("finir","Indicatif","Présent",[{p:"je",c:"finis",d:["finit","finissons","finissez"]},{p:"tu",c:"finis",d:["finit","finissons","finissent"]},{p:"il",c:"finit",d:["finis","finissons","finissent"]},{p:"nous",c:"finissons",d:["finissez","finissent","finit"]},{p:"vous",c:"finissez",d:["finissons","finissent","finis"]},{p:"ils",c:"finissent",d:["finissez","finissons","finit"]}]);
+addQ("finir","Indicatif","Imparfait",[{p:"je",c:"finissais",d:["finissait","finissions","finis"]},{p:"il",c:"finissait",d:["finissais","finissions","finira"]}]);
+addQ("finir","Indicatif","Passé composé",[{p:"j'",c:"ai fini",d:["a fini","avons fini","finissais"]},{p:"ils",c:"ont fini",d:["avez fini","avons fini","a fini"]}]);
+addQ("finir","Indicatif","Passé simple",[{p:"je",c:"finis",d:["finit","finîmes","finirent"]},{p:"il",c:"finit",d:["finis","finîmes","finirent"]},{p:"ils",c:"finirent",d:["finit","finîtes","finîmes"]}]);
+addQ("finir","Indicatif","Futur simple",[{p:"je",c:"finirai",d:["finiras","finira","finirons"]},{p:"ils",c:"finiront",d:["finirez","finirons","finira"]}]);
+addQ("finir","Indicatif","Plus-que-parfait",[{p:"j'",c:"avais fini",d:["avait fini","avions fini","aurai fini"]},{p:"il",c:"avait fini",d:["avais fini","avions fini","aura fini"]}]);
+addQ("finir","Subjonctif","Présent",[{p:"que je",c:"finisse",d:["finisses","finissions","finissent"]},{p:"que nous",c:"finissions",d:["finissiez","finissent","finissons"]}]);
+addQ("finir","Conditionnel","Présent",[{p:"je",c:"finirais",d:["finirait","finirions","finirez"]},{p:"il",c:"finirait",d:["finirais","finirions","finira"]}]);
 addQ("finir","Participe","Présent",[{p:"en",c:"finissant",d:["fini","finissons","avoir fini"]}]);
 addQ("finir","Participe","Passé",[{p:"(avoir)",c:"fini",d:["finissant","finir","finissais"]}]);
 
 // ── GRANDIR ──
-addQ("grandir","Indicatif","Présent",[
-  {p:"je",c:"grandis",d:["grandit","grandissons","grandissez"]},
-  {p:"elle",c:"grandit",d:["grandis","grandissons","grandissent"]},
-  {p:"ils",c:"grandissent",d:["grandissez","grandissons","grandit"]}
-]);
-addQ("grandir","Indicatif","Imparfait",[
-  {p:"je",c:"grandissais",d:["grandissait","grandissions","grandis"]},
-  {p:"il",c:"grandissait",d:["grandissais","grandissions","grandira"]}
-]);
-addQ("grandir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai grandi",d:["a grandi","avons grandi","grandissais"]},
-  {p:"elle",c:"a grandi",d:["ai grandi","as grandi","ont grandi"]}
-]);
-addQ("grandir","Indicatif","Futur simple",[
-  {p:"je",c:"grandirai",d:["grandiras","grandira","grandirons"]},
-  {p:"ils",c:"grandiront",d:["grandirez","grandirons","grandira"]}
-]);
-addQ("grandir","Subjonctif","Présent",[
-  {p:"que je",c:"grandisse",d:["grandisses","grandissions","grandissent"]}
-]);
-addQ("grandir","Conditionnel","Présent",[
-  {p:"je",c:"grandirais",d:["grandirait","grandirions","grandirez"]}
-]);
+addQ("grandir","Indicatif","Présent",[{p:"je",c:"grandis",d:["grandit","grandissons","grandissez"]},{p:"elle",c:"grandit",d:["grandis","grandissons","grandissent"]},{p:"ils",c:"grandissent",d:["grandissez","grandissons","grandit"]}]);
+addQ("grandir","Indicatif","Imparfait",[{p:"je",c:"grandissais",d:["grandissait","grandissions","grandis"]},{p:"il",c:"grandissait",d:["grandissais","grandissions","grandira"]}]);
+addQ("grandir","Indicatif","Passé composé",[{p:"j'",c:"ai grandi",d:["a grandi","avons grandi","grandissais"]},{p:"elle",c:"a grandi",d:["ai grandi","as grandi","ont grandi"]}]);
+addQ("grandir","Indicatif","Futur simple",[{p:"je",c:"grandirai",d:["grandiras","grandira","grandirons"]},{p:"ils",c:"grandiront",d:["grandirez","grandirons","grandira"]}]);
+addQ("grandir","Subjonctif","Présent",[{p:"que je",c:"grandisse",d:["grandisses","grandissions","grandissent"]}]);
+addQ("grandir","Conditionnel","Présent",[{p:"je",c:"grandirais",d:["grandirait","grandirions","grandirez"]}]);
 addQ("grandir","Participe","Passé",[{p:"(avoir)",c:"grandi",d:["grandissant","grandir","grandissais"]}]);
 
 // ── MAIGRIR ──
-addQ("maigrir","Indicatif","Présent",[
-  {p:"je",c:"maigris",d:["maigrit","maigrissons","maigrissez"]},
-  {p:"il",c:"maigrit",d:["maigris","maigrissons","maigrissent"]},
-  {p:"ils",c:"maigrissent",d:["maigrissez","maigrissons","maigrit"]}
-]);
-addQ("maigrir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai maigri",d:["a maigri","avons maigri","maigrissais"]},
-  {p:"ils",c:"ont maigri",d:["avez maigri","avons maigri","a maigri"]}
-]);
-addQ("maigrir","Indicatif","Futur simple",[
-  {p:"je",c:"maigrirai",d:["maigriras","maigrira","maigrirons"]},
-  {p:"ils",c:"maigriront",d:["maigrirez","maigrirons","maigrira"]}
-]);
-addQ("maigrir","Subjonctif","Présent",[
-  {p:"que je",c:"maigrisse",d:["maigrisses","maigrissions","maigrissent"]}
-]);
-addQ("maigrir","Conditionnel","Présent",[
-  {p:"je",c:"maigrirais",d:["maigrirait","maigririsons","maigrirez"]}
-]);
+addQ("maigrir","Indicatif","Présent",[{p:"je",c:"maigris",d:["maigrit","maigrissons","maigrissez"]},{p:"il",c:"maigrit",d:["maigris","maigrissons","maigrissent"]},{p:"ils",c:"maigrissent",d:["maigrissez","maigrissons","maigrit"]}]);
+addQ("maigrir","Indicatif","Passé composé",[{p:"j'",c:"ai maigri",d:["a maigri","avons maigri","maigrissais"]},{p:"ils",c:"ont maigri",d:["avez maigri","avons maigri","a maigri"]}]);
+addQ("maigrir","Indicatif","Futur simple",[{p:"je",c:"maigrirai",d:["maigriras","maigrira","maigrirons"]},{p:"ils",c:"maigriront",d:["maigrirez","maigrirons","maigrira"]}]);
+addQ("maigrir","Subjonctif","Présent",[{p:"que je",c:"maigrisse",d:["maigrisses","maigrissions","maigrissent"]}]);
+addQ("maigrir","Conditionnel","Présent",[{p:"je",c:"maigrirais",d:["maigrirait","maigririsions","maigrirez"]}]);
 
 // ── DÉFINIR ──
-addQ("définir","Indicatif","Présent",[
-  {p:"je",c:"définis",d:["définit","définissons","définissez"]},
-  {p:"il",c:"définit",d:["définis","définissons","définissent"]},
-  {p:"nous",c:"définissons",d:["définissez","définissent","définit"]}
-]);
-addQ("définir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai défini",d:["a défini","avons défini","définissais"]},
-  {p:"nous",c:"avons défini",d:["avez défini","ont défini","a défini"]}
-]);
-addQ("définir","Indicatif","Futur simple",[
-  {p:"je",c:"définirai",d:["définiras","définira","définirons"]},
-  {p:"ils",c:"définiront",d:["définirez","définirons","définira"]}
-]);
-addQ("définir","Subjonctif","Présent",[
-  {p:"que je",c:"définisse",d:["définisses","définissions","définissent"]}
-]);
-addQ("définir","Conditionnel","Présent",[
-  {p:"je",c:"définirais",d:["définirait","définirions","définirez"]}
-]);
+addQ("définir","Indicatif","Présent",[{p:"je",c:"définis",d:["définit","définissons","définissez"]},{p:"il",c:"définit",d:["définis","définissons","définissent"]},{p:"nous",c:"définissons",d:["définissez","définissent","définit"]}]);
+addQ("définir","Indicatif","Passé composé",[{p:"j'",c:"ai défini",d:["a défini","avons défini","définissais"]},{p:"nous",c:"avons défini",d:["avez défini","ont défini","a défini"]}]);
+addQ("définir","Indicatif","Futur simple",[{p:"je",c:"définirai",d:["définiras","définira","définirons"]},{p:"ils",c:"définiront",d:["définirez","définirons","définira"]}]);
+addQ("définir","Subjonctif","Présent",[{p:"que je",c:"définisse",d:["définisses","définissions","définissent"]}]);
+addQ("définir","Conditionnel","Présent",[{p:"je",c:"définirais",d:["définirait","définirions","définirez"]}]);
 
 // ── CHOISIR ──
-addQ("choisir","Indicatif","Présent",[
-  {p:"je",c:"choisis",d:["choisit","choisissons","choisissez"]},
-  {p:"il",c:"choisit",d:["choisis","choisissons","choisissent"]},
-  {p:"ils",c:"choisissent",d:["choisissez","choisissons","choisit"]}
-]);
-addQ("choisir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai choisi",d:["a choisi","avons choisi","choisissais"]},
-  {p:"nous",c:"avons choisi",d:["avez choisi","ont choisi","a choisi"]}
-]);
-addQ("choisir","Indicatif","Futur simple",[
-  {p:"je",c:"choisirai",d:["choisiras","choisira","choisirons"]},
-  {p:"ils",c:"choisiront",d:["choisirez","choisirons","choisira"]}
-]);
-addQ("choisir","Subjonctif","Présent",[
-  {p:"que je",c:"choisisse",d:["choisisses","choisissions","choisissent"]}
-]);
-addQ("choisir","Conditionnel","Présent",[
-  {p:"je",c:"choisirais",d:["choisirait","choisirions","choisirez"]}
-]);
+addQ("choisir","Indicatif","Présent",[{p:"je",c:"choisis",d:["choisit","choisissons","choisissez"]},{p:"il",c:"choisit",d:["choisis","choisissons","choisissent"]},{p:"ils",c:"choisissent",d:["choisissez","choisissons","choisit"]}]);
+addQ("choisir","Indicatif","Passé composé",[{p:"j'",c:"ai choisi",d:["a choisi","avons choisi","choisissais"]},{p:"nous",c:"avons choisi",d:["avez choisi","ont choisi","a choisi"]}]);
+addQ("choisir","Indicatif","Futur simple",[{p:"je",c:"choisirai",d:["choisiras","choisira","choisirons"]},{p:"ils",c:"choisiront",d:["choisirez","choisirons","choisira"]}]);
+addQ("choisir","Subjonctif","Présent",[{p:"que je",c:"choisisse",d:["choisisses","choisissions","choisissent"]}]);
+addQ("choisir","Conditionnel","Présent",[{p:"je",c:"choisirais",d:["choisirait","choisirions","choisirez"]}]);
 addQ("choisir","Participe","Passé",[{p:"(avoir)",c:"choisi",d:["choisissant","choisir","choisissais"]}]);
 
 // ── RÉUSSIR ──
-addQ("réussir","Indicatif","Présent",[
-  {p:"je",c:"réussis",d:["réussit","réussissons","réussissez"]},
-  {p:"il",c:"réussit",d:["réussis","réussissons","réussissent"]},
-  {p:"nous",c:"réussissons",d:["réussissez","réussissent","réussit"]}
-]);
-addQ("réussir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai réussi",d:["a réussi","avons réussi","réussissais"]},
-  {p:"nous",c:"avons réussi",d:["avez réussi","ont réussi","a réussi"]}
-]);
-addQ("réussir","Indicatif","Futur simple",[
-  {p:"je",c:"réussirai",d:["réussiras","réussira","réussirons"]},
-  {p:"ils",c:"réussiront",d:["réussirez","réussirons","réussira"]}
-]);
-addQ("réussir","Subjonctif","Présent",[
-  {p:"que je",c:"réussisse",d:["réussisses","réussissions","réussissent"]}
-]);
-addQ("réussir","Conditionnel","Présent",[
-  {p:"je",c:"réussirais",d:["réussirait","réussirions","réussirez"]}
-]);
+addQ("réussir","Indicatif","Présent",[{p:"je",c:"réussis",d:["réussit","réussissons","réussissez"]},{p:"il",c:"réussit",d:["réussis","réussissons","réussissent"]},{p:"nous",c:"réussissons",d:["réussissez","réussissent","réussit"]}]);
+addQ("réussir","Indicatif","Passé composé",[{p:"j'",c:"ai réussi",d:["a réussi","avons réussi","réussissais"]},{p:"nous",c:"avons réussi",d:["avez réussi","ont réussi","a réussi"]}]);
+addQ("réussir","Indicatif","Futur simple",[{p:"je",c:"réussirai",d:["réussiras","réussira","réussirons"]},{p:"ils",c:"réussiront",d:["réussirez","réussirons","réussira"]}]);
+addQ("réussir","Subjonctif","Présent",[{p:"que je",c:"réussisse",d:["réussisses","réussissions","réussissent"]}]);
+addQ("réussir","Conditionnel","Présent",[{p:"je",c:"réussirais",d:["réussirait","réussirions","réussirez"]}]);
 
 // ── NOURRIR ──
-addQ("nourrir","Indicatif","Présent",[
-  {p:"je",c:"nourris",d:["nourrit","nourrissons","nourrissez"]},
-  {p:"il",c:"nourrit",d:["nourris","nourrissons","nourrissent"]},
-  {p:"ils",c:"nourrissent",d:["nourrissez","nourrissons","nourrit"]}
-]);
-addQ("nourrir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai nourri",d:["a nourri","avons nourri","nourrissais"]},
-  {p:"nous",c:"avons nourri",d:["avez nourri","ont nourri","a nourri"]}
-]);
-addQ("nourrir","Indicatif","Futur simple",[
-  {p:"je",c:"nourrirai",d:["nourriras","nourrira","nourrirons"]},
-  {p:"ils",c:"nourriront",d:["nourrirez","nourrirons","nourrira"]}
-]);
-addQ("nourrir","Subjonctif","Présent",[
-  {p:"que je",c:"nourrisse",d:["nourrisses","nourrissions","nourrissent"]}
-]);
-addQ("nourrir","Conditionnel","Présent",[
-  {p:"je",c:"nourrirais",d:["nourrirait","nourririons","nourrirez"]}
-]);
+addQ("nourrir","Indicatif","Présent",[{p:"je",c:"nourris",d:["nourrit","nourrissons","nourrissez"]},{p:"il",c:"nourrit",d:["nourris","nourrissons","nourrissent"]},{p:"ils",c:"nourrissent",d:["nourrissez","nourrissons","nourrit"]}]);
+addQ("nourrir","Indicatif","Passé composé",[{p:"j'",c:"ai nourri",d:["a nourri","avons nourri","nourrissais"]},{p:"nous",c:"avons nourri",d:["avez nourri","ont nourri","a nourri"]}]);
+addQ("nourrir","Indicatif","Futur simple",[{p:"je",c:"nourrirai",d:["nourriras","nourrira","nourrirons"]},{p:"ils",c:"nourriront",d:["nourrirez","nourrirons","nourrira"]}]);
+addQ("nourrir","Subjonctif","Présent",[{p:"que je",c:"nourrisse",d:["nourrisses","nourrissions","nourrissent"]}]);
+addQ("nourrir","Conditionnel","Présent",[{p:"je",c:"nourrirais",d:["nourrirait","nourririons","nourrirez"]}]);
 
 // ── RÉFLÉCHIR ──
-addQ("réfléchir","Indicatif","Présent",[
-  {p:"je",c:"réfléchis",d:["réfléchit","réfléchissons","réfléchissez"]},
-  {p:"il",c:"réfléchit",d:["réfléchis","réfléchissons","réfléchissent"]},
-  {p:"nous",c:"réfléchissons",d:["réfléchissez","réfléchissent","réfléchit"]}
-]);
-addQ("réfléchir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai réfléchi",d:["a réfléchi","avons réfléchi","réfléchissais"]},
-  {p:"nous",c:"avons réfléchi",d:["avez réfléchi","ont réfléchi","a réfléchi"]}
-]);
-addQ("réfléchir","Indicatif","Futur simple",[
-  {p:"je",c:"réfléchirai",d:["réfléchiras","réfléchira","réfléchirons"]},
-  {p:"ils",c:"réfléchiront",d:["réfléchirez","réfléchirons","réfléchira"]}
-]);
-addQ("réfléchir","Subjonctif","Présent",[
-  {p:"que je",c:"réfléchisse",d:["réfléchisses","réfléchissions","réfléchissent"]}
-]);
-addQ("réfléchir","Conditionnel","Présent",[
-  {p:"je",c:"réfléchirais",d:["réfléchirait","réfléchirions","réfléchirez"]}
-]);
+addQ("réfléchir","Indicatif","Présent",[{p:"je",c:"réfléchis",d:["réfléchit","réfléchissons","réfléchissez"]},{p:"il",c:"réfléchit",d:["réfléchis","réfléchissons","réfléchissent"]},{p:"nous",c:"réfléchissons",d:["réfléchissez","réfléchissent","réfléchit"]}]);
+addQ("réfléchir","Indicatif","Passé composé",[{p:"j'",c:"ai réfléchi",d:["a réfléchi","avons réfléchi","réfléchissais"]},{p:"nous",c:"avons réfléchi",d:["avez réfléchi","ont réfléchi","a réfléchi"]}]);
+addQ("réfléchir","Indicatif","Futur simple",[{p:"je",c:"réfléchirai",d:["réfléchiras","réfléchira","réfléchirons"]},{p:"ils",c:"réfléchiront",d:["réfléchirez","réfléchirons","réfléchira"]}]);
+addQ("réfléchir","Subjonctif","Présent",[{p:"que je",c:"réfléchisse",d:["réfléchisses","réfléchissions","réfléchissent"]}]);
+addQ("réfléchir","Conditionnel","Présent",[{p:"je",c:"réfléchirais",d:["réfléchirait","réfléchirions","réfléchirez"]}]);
 
 // ── ÊTRE ──
-addQ("être","Indicatif","Présent",[
-  {p:"je",c:"suis",d:["es","est","sommes"]},
-  {p:"tu",c:"es",d:["suis","est","êtes"]},
-  {p:"il",c:"est",d:["es","suis","sont"]},
-  {p:"nous",c:"sommes",d:["êtes","sont","es"]},
-  {p:"vous",c:"êtes",d:["sommes","sont","est"]},
-  {p:"elles",c:"sont",d:["êtes","sommes","est"]}
-]);
-addQ("être","Indicatif","Imparfait",[
-  {p:"j'",c:"étais",d:["était","étions","suis"]},
-  {p:"il",c:"était",d:["étais","étions","sera"]},
-  {p:"ils",c:"étaient",d:["étiez","étions","était"]}
-]);
-addQ("être","Indicatif","Passé composé",[
-  {p:"j'",c:"ai été",d:["a été","avons été","étais"]},
-  {p:"nous",c:"avons été",d:["avez été","ont été","a été"]}
-]);
-addQ("être","Indicatif","Passé simple",[
-  {p:"je",c:"fus",d:["fut","fûmes","furent"]},
-  {p:"il",c:"fut",d:["fus","fûmes","furent"]},
-  {p:"ils",c:"furent",d:["fut","fûtes","fûmes"]}
-]);
-addQ("être","Indicatif","Futur simple",[
-  {p:"je",c:"serai",d:["seras","sera","serons"]},
-  {p:"il",c:"sera",d:["serai","seras","seront"]},
-  {p:"ils",c:"seront",d:["serez","serons","sera"]}
-]);
-addQ("être","Indicatif","Plus-que-parfait",[
-  {p:"j'",c:"avais été",d:["avait été","avions été","aurai été"]},
-  {p:"il",c:"avait été",d:["avais été","avions été","aura été"]}
-]);
-addQ("être","Subjonctif","Présent",[
-  {p:"que je",c:"sois",d:["soit","soyons","soient"]},
-  {p:"qu'il",c:"soit",d:["sois","soyons","soient"]},
-  {p:"que nous",c:"soyons",d:["soyez","soient","sommes"]}
-]);
-addQ("être","Conditionnel","Présent",[
-  {p:"je",c:"serais",d:["serait","serions","seriez"]},
-  {p:"il",c:"serait",d:["serais","serions","sera"]}
-]);
+addQ("être","Indicatif","Présent",[{p:"je",c:"suis",d:["es","est","sommes"]},{p:"tu",c:"es",d:["suis","est","êtes"]},{p:"il",c:"est",d:["es","suis","sont"]},{p:"nous",c:"sommes",d:["êtes","sont","es"]},{p:"vous",c:"êtes",d:["sommes","sont","est"]},{p:"elles",c:"sont",d:["êtes","sommes","est"]}]);
+addQ("être","Indicatif","Imparfait",[{p:"j'",c:"étais",d:["était","étions","suis"]},{p:"il",c:"était",d:["étais","étions","sera"]},{p:"ils",c:"étaient",d:["étiez","étions","était"]}]);
+addQ("être","Indicatif","Passé composé",[{p:"j'",c:"ai été",d:["a été","avons été","étais"]},{p:"nous",c:"avons été",d:["avez été","ont été","a été"]}]);
+addQ("être","Indicatif","Passé simple",[{p:"je",c:"fus",d:["fut","fûmes","furent"]},{p:"il",c:"fut",d:["fus","fûmes","furent"]},{p:"ils",c:"furent",d:["fut","fûtes","fûmes"]}]);
+addQ("être","Indicatif","Futur simple",[{p:"je",c:"serai",d:["seras","sera","serons"]},{p:"il",c:"sera",d:["serai","seras","seront"]},{p:"ils",c:"seront",d:["serez","serons","sera"]}]);
+addQ("être","Indicatif","Plus-que-parfait",[{p:"j'",c:"avais été",d:["avait été","avions été","aurai été"]},{p:"il",c:"avait été",d:["avais été","avions été","aura été"]}]);
+addQ("être","Subjonctif","Présent",[{p:"que je",c:"sois",d:["soit","soyons","soient"]},{p:"qu'il",c:"soit",d:["sois","soyons","soient"]},{p:"que nous",c:"soyons",d:["soyez","soient","sommes"]}]);
+addQ("être","Conditionnel","Présent",[{p:"je",c:"serais",d:["serait","serions","seriez"]},{p:"il",c:"serait",d:["serais","serions","sera"]}]);
 addQ("être","Participe","Passé",[{p:"—",c:"été",d:["étant","être","est"]}]);
 addQ("être","Participe","Présent",[{p:"en",c:"étant",d:["été","être","ayant été"]}]);
 addQ("être","Infinitif","Présent",[{p:"—",c:"être",d:["étant","été","est"]}]);
 
 // ── AVOIR ──
-addQ("avoir","Indicatif","Présent",[
-  {p:"j'",c:"ai",d:["as","a","avons"]},
-  {p:"tu",c:"as",d:["ai","a","avez"]},
-  {p:"il",c:"a",d:["ai","as","ont"]},
-  {p:"nous",c:"avons",d:["avez","ont","as"]},
-  {p:"vous",c:"avez",d:["avons","ont","as"]},
-  {p:"elles",c:"ont",d:["avez","avons","a"]}
-]);
-addQ("avoir","Indicatif","Imparfait",[
-  {p:"j'",c:"avais",d:["avait","avions","ai"]},
-  {p:"il",c:"avait",d:["avais","avions","aura"]},
-  {p:"ils",c:"avaient",d:["aviez","avions","avait"]}
-]);
-addQ("avoir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai eu",d:["a eu","avons eu","avais"]},
-  {p:"nous",c:"avons eu",d:["avez eu","ont eu","a eu"]}
-]);
-addQ("avoir","Indicatif","Passé simple",[
-  {p:"j'",c:"eus",d:["eut","eûmes","eurent"]},
-  {p:"il",c:"eut",d:["eus","eûmes","eurent"]},
-  {p:"ils",c:"eurent",d:["eut","eûtes","eûmes"]}
-]);
-addQ("avoir","Indicatif","Futur simple",[
-  {p:"j'",c:"aurai",d:["auras","aura","aurons"]},
-  {p:"il",c:"aura",d:["aurai","auras","auront"]},
-  {p:"ils",c:"auront",d:["aurez","aurons","aura"]}
-]);
-addQ("avoir","Indicatif","Plus-que-parfait",[
-  {p:"j'",c:"avais eu",d:["avait eu","avions eu","aurai eu"]},
-  {p:"il",c:"avait eu",d:["avais eu","avions eu","aura eu"]}
-]);
-addQ("avoir","Subjonctif","Présent",[
-  {p:"que j'",c:"aie",d:["ait","ayons","aient"]},
-  {p:"qu'il",c:"ait",d:["aie","ayons","aient"]},
-  {p:"que nous",c:"ayons",d:["ayez","aient","avons"]}
-]);
-addQ("avoir","Conditionnel","Présent",[
-  {p:"j'",c:"aurais",d:["aurait","aurions","auriez"]},
-  {p:"il",c:"aurait",d:["aurais","aurions","aura"]}
-]);
+addQ("avoir","Indicatif","Présent",[{p:"j'",c:"ai",d:["as","a","avons"]},{p:"tu",c:"as",d:["ai","a","avez"]},{p:"il",c:"a",d:["ai","as","ont"]},{p:"nous",c:"avons",d:["avez","ont","as"]},{p:"vous",c:"avez",d:["avons","ont","as"]},{p:"elles",c:"ont",d:["avez","avons","a"]}]);
+addQ("avoir","Indicatif","Imparfait",[{p:"j'",c:"avais",d:["avait","avions","ai"]},{p:"il",c:"avait",d:["avais","avions","aura"]},{p:"ils",c:"avaient",d:["aviez","avions","avait"]}]);
+addQ("avoir","Indicatif","Passé composé",[{p:"j'",c:"ai eu",d:["a eu","avons eu","avais"]},{p:"nous",c:"avons eu",d:["avez eu","ont eu","a eu"]}]);
+addQ("avoir","Indicatif","Passé simple",[{p:"j'",c:"eus",d:["eut","eûmes","eurent"]},{p:"il",c:"eut",d:["eus","eûmes","eurent"]},{p:"ils",c:"eurent",d:["eut","eûtes","eûmes"]}]);
+addQ("avoir","Indicatif","Futur simple",[{p:"j'",c:"aurai",d:["auras","aura","aurons"]},{p:"il",c:"aura",d:["aurai","auras","auront"]},{p:"ils",c:"auront",d:["aurez","aurons","aura"]}]);
+addQ("avoir","Indicatif","Plus-que-parfait",[{p:"j'",c:"avais eu",d:["avait eu","avions eu","aurai eu"]},{p:"il",c:"avait eu",d:["avais eu","avions eu","aura eu"]}]);
+addQ("avoir","Subjonctif","Présent",[{p:"que j'",c:"aie",d:["ait","ayons","aient"]},{p:"qu'il",c:"ait",d:["aie","ayons","aient"]},{p:"que nous",c:"ayons",d:["ayez","aient","avons"]}]);
+addQ("avoir","Conditionnel","Présent",[{p:"j'",c:"aurais",d:["aurait","aurions","auriez"]},{p:"il",c:"aurait",d:["aurais","aurions","aura"]}]);
 addQ("avoir","Participe","Passé",[{p:"—",c:"eu",d:["ayant","avoir","a"]}]);
 addQ("avoir","Participe","Présent",[{p:"en",c:"ayant",d:["eu","avoir","ayant eu"]}]);
 addQ("avoir","Infinitif","Présent",[{p:"—",c:"avoir",d:["ayant","eu","a"]}]);
 
 // ── ALLER ──
-addQ("aller","Indicatif","Présent",[
-  {p:"je",c:"vais",d:["va","allons","allez"]},
-  {p:"tu",c:"vas",d:["vais","va","allez"]},
-  {p:"il",c:"va",d:["vais","vas","vont"]},
-  {p:"nous",c:"allons",d:["allez","vont","vas"]},
-  {p:"vous",c:"allez",d:["allons","vont","va"]},
-  {p:"ils",c:"vont",d:["allez","allons","va"]}
-]);
-addQ("aller","Indicatif","Imparfait",[
-  {p:"j'",c:"allais",d:["allait","allions","vais"]},
-  {p:"il",c:"allait",d:["allais","allions","ira"]},
-  {p:"ils",c:"allaient",d:["alliez","allions","allait"]}
-]);
-addQ("aller","Indicatif","Passé composé",[
-  {p:"je",c:"suis allé",d:["suis allée","es allé","est allé"]},
-  {p:"nous",c:"sommes allés",d:["êtes allés","sont allés","avons allé"]},
-  {p:"ils",c:"sont allés",d:["êtes allés","sommes allés","ont allé"]}
-]);
-addQ("aller","Indicatif","Futur simple",[
-  {p:"j'",c:"irai",d:["iras","ira","irons"]},
-  {p:"il",c:"ira",d:["irai","iras","iront"]},
-  {p:"ils",c:"iront",d:["irez","irons","ira"]}
-]);
-addQ("aller","Subjonctif","Présent",[
-  {p:"que j'",c:"aille",d:["ailles","allions","aillent"]},
-  {p:"que nous",c:"allions",d:["alliez","aillent","allons"]}
-]);
-addQ("aller","Conditionnel","Présent",[
-  {p:"j'",c:"irais",d:["irait","irions","iriez"]},
-  {p:"il",c:"irait",d:["irais","irions","ira"]}
-]);
+addQ("aller","Indicatif","Présent",[{p:"je",c:"vais",d:["va","allons","allez"]},{p:"tu",c:"vas",d:["vais","va","allez"]},{p:"il",c:"va",d:["vais","vas","vont"]},{p:"nous",c:"allons",d:["allez","vont","vas"]},{p:"vous",c:"allez",d:["allons","vont","va"]},{p:"ils",c:"vont",d:["allez","allons","va"]}]);
+addQ("aller","Indicatif","Imparfait",[{p:"j'",c:"allais",d:["allait","allions","vais"]},{p:"il",c:"allait",d:["allais","allions","ira"]},{p:"ils",c:"allaient",d:["alliez","allions","allait"]}]);
+addQ("aller","Indicatif","Passé composé",[{p:"je",c:"suis allé",d:["suis allée","es allé","est allé"]},{p:"nous",c:"sommes allés",d:["êtes allés","sont allés","avons allé"]},{p:"ils",c:"sont allés",d:["êtes allés","sommes allés","ont allé"]}]);
+addQ("aller","Indicatif","Futur simple",[{p:"j'",c:"irai",d:["iras","ira","irons"]},{p:"il",c:"ira",d:["irai","iras","iront"]},{p:"ils",c:"iront",d:["irez","irons","ira"]}]);
+addQ("aller","Subjonctif","Présent",[{p:"que j'",c:"aille",d:["ailles","allions","aillent"]},{p:"que nous",c:"allions",d:["alliez","aillent","allons"]}]);
+addQ("aller","Conditionnel","Présent",[{p:"j'",c:"irais",d:["irait","irions","iriez"]},{p:"il",c:"irait",d:["irais","irions","ira"]}]);
 addQ("aller","Participe","Passé",[{p:"(être)",c:"allé",d:["allant","aller","est allé"]}]);
 addQ("aller","Participe","Présent",[{p:"en",c:"allant",d:["allé","aller","être allé"]}]);
 
 // ── FAIRE ──
-addQ("faire","Indicatif","Présent",[
-  {p:"je",c:"fais",d:["fait","faisons","faites"]},
-  {p:"tu",c:"fais",d:["fait","faisons","font"]},
-  {p:"il",c:"fait",d:["fais","faisons","font"]},
-  {p:"nous",c:"faisons",d:["faites","font","fait"]},
-  {p:"vous",c:"faites",d:["faisons","font","fais"]},
-  {p:"ils",c:"font",d:["faites","faisons","fait"]}
-]);
-addQ("faire","Indicatif","Imparfait",[
-  {p:"je",c:"faisais",d:["faisait","faisions","fais"]},
-  {p:"il",c:"faisait",d:["faisais","faisions","fera"]},
-  {p:"nous",c:"faisions",d:["faisiez","faisaient","faisais"]}
-]);
-addQ("faire","Indicatif","Passé composé",[
-  {p:"j'",c:"ai fait",d:["a fait","avons fait","faisais"]},
-  {p:"nous",c:"avons fait",d:["avez fait","ont fait","a fait"]}
-]);
-addQ("faire","Indicatif","Passé simple",[
-  {p:"je",c:"fis",d:["fit","fîmes","firent"]},
-  {p:"il",c:"fit",d:["fis","fîmes","firent"]},
-  {p:"ils",c:"firent",d:["fit","fîtes","fîmes"]}
-]);
-addQ("faire","Indicatif","Futur simple",[
-  {p:"je",c:"ferai",d:["feras","fera","ferons"]},
-  {p:"tu",c:"feras",d:["ferai","fera","ferez"]},
-  {p:"il",c:"fera",d:["ferai","feras","feront"]},
-  {p:"ils",c:"feront",d:["ferez","ferons","fera"]}
-]);
-addQ("faire","Subjonctif","Présent",[
-  {p:"que je",c:"fasse",d:["fasses","fassions","fassent"]},
-  {p:"que nous",c:"fassions",d:["fassiez","fassent","faisons"]}
-]);
-addQ("faire","Conditionnel","Présent",[
-  {p:"je",c:"ferais",d:["ferait","ferions","feriez"]},
-  {p:"il",c:"ferait",d:["ferais","ferions","fera"]}
-]);
+addQ("faire","Indicatif","Présent",[{p:"je",c:"fais",d:["fait","faisons","faites"]},{p:"tu",c:"fais",d:["fait","faisons","font"]},{p:"il",c:"fait",d:["fais","faisons","font"]},{p:"nous",c:"faisons",d:["faites","font","fait"]},{p:"vous",c:"faites",d:["faisons","font","fais"]},{p:"ils",c:"font",d:["faites","faisons","fait"]}]);
+addQ("faire","Indicatif","Imparfait",[{p:"je",c:"faisais",d:["faisait","faisions","fais"]},{p:"il",c:"faisait",d:["faisais","faisions","fera"]},{p:"nous",c:"faisions",d:["faisiez","faisaient","faisais"]}]);
+addQ("faire","Indicatif","Passé composé",[{p:"j'",c:"ai fait",d:["a fait","avons fait","faisais"]},{p:"nous",c:"avons fait",d:["avez fait","ont fait","a fait"]}]);
+addQ("faire","Indicatif","Passé simple",[{p:"je",c:"fis",d:["fit","fîmes","firent"]},{p:"il",c:"fit",d:["fis","fîmes","firent"]},{p:"ils",c:"firent",d:["fit","fîtes","fîmes"]}]);
+addQ("faire","Indicatif","Futur simple",[{p:"je",c:"ferai",d:["feras","fera","ferons"]},{p:"tu",c:"feras",d:["ferai","fera","ferez"]},{p:"il",c:"fera",d:["ferai","feras","feront"]},{p:"ils",c:"feront",d:["ferez","ferons","fera"]}]);
+addQ("faire","Subjonctif","Présent",[{p:"que je",c:"fasse",d:["fasses","fassions","fassent"]},{p:"que nous",c:"fassions",d:["fassiez","fassent","faisons"]}]);
+addQ("faire","Conditionnel","Présent",[{p:"je",c:"ferais",d:["ferait","ferions","feriez"]},{p:"il",c:"ferait",d:["ferais","ferions","fera"]}]);
 addQ("faire","Participe","Passé",[{p:"(avoir)",c:"fait",d:["faisant","faire","faisais"]}]);
 addQ("faire","Participe","Présent",[{p:"en",c:"faisant",d:["fait","faire","avoir fait"]}]);
 
 // ── POUVOIR ──
-addQ("pouvoir","Indicatif","Présent",[
-  {p:"je",c:"peux",d:["peut","pouvons","peuvent"]},
-  {p:"tu",c:"peux",d:["peut","pouvons","pouvez"]},
-  {p:"il",c:"peut",d:["peux","pouvons","peuvent"]},
-  {p:"nous",c:"pouvons",d:["pouvez","peuvent","peut"]},
-  {p:"ils",c:"peuvent",d:["pouvez","pouvons","peut"]}
-]);
-addQ("pouvoir","Indicatif","Imparfait",[
-  {p:"je",c:"pouvais",d:["pouvait","pouvions","peux"]},
-  {p:"il",c:"pouvait",d:["pouvais","pouvions","pourra"]}
-]);
-addQ("pouvoir","Indicatif","Passé composé",[
-  {p:"j'",c:"ai pu",d:["a pu","avons pu","pouvais"]},
-  {p:"nous",c:"avons pu",d:["avez pu","ont pu","a pu"]}
-]);
-addQ("pouvoir","Indicatif","Futur simple",[
-  {p:"je",c:"pourrai",d:["pourras","pourra","pourrons"]},
-  {p:"ils",c:"pourront",d:["pourrez","pourrons","pourra"]}
-]);
-addQ("pouvoir","Subjonctif","Présent",[
-  {p:"que je",c:"puisse",d:["puisses","puissions","puissent"]},
-  {p:"que nous",c:"puissions",d:["puissiez","puissent","pouvons"]}
-]);
-addQ("pouvoir","Conditionnel","Présent",[
-  {p:"je",c:"pourrais",d:["pourrait","pourrions","pourriez"]},
-  {p:"il",c:"pourrait",d:["pourrais","pourrions","pourra"]}
-]);
+addQ("pouvoir","Indicatif","Présent",[{p:"je",c:"peux",d:["peut","pouvons","peuvent"]},{p:"tu",c:"peux",d:["peut","pouvons","pouvez"]},{p:"il",c:"peut",d:["peux","pouvons","peuvent"]},{p:"nous",c:"pouvons",d:["pouvez","peuvent","peut"]},{p:"ils",c:"peuvent",d:["pouvez","pouvons","peut"]}]);
+addQ("pouvoir","Indicatif","Imparfait",[{p:"je",c:"pouvais",d:["pouvait","pouvions","peux"]},{p:"il",c:"pouvait",d:["pouvais","pouvions","pourra"]}]);
+addQ("pouvoir","Indicatif","Passé composé",[{p:"j'",c:"ai pu",d:["a pu","avons pu","pouvais"]},{p:"nous",c:"avons pu",d:["avez pu","ont pu","a pu"]}]);
+addQ("pouvoir","Indicatif","Futur simple",[{p:"je",c:"pourrai",d:["pourras","pourra","pourrons"]},{p:"ils",c:"pourront",d:["pourrez","pourrons","pourra"]}]);
+addQ("pouvoir","Subjonctif","Présent",[{p:"que je",c:"puisse",d:["puisses","puissions","puissent"]},{p:"que nous",c:"puissions",d:["puissiez","puissent","pouvons"]}]);
+addQ("pouvoir","Conditionnel","Présent",[{p:"je",c:"pourrais",d:["pourrait","pourrions","pourriez"]},{p:"il",c:"pourrait",d:["pourrais","pourrions","pourra"]}]);
 addQ("pouvoir","Participe","Passé",[{p:"(avoir)",c:"pu",d:["pouvant","pouvoir","pouvais"]}]);
 
 // ── VENIR ──
-addQ("venir","Indicatif","Présent",[
-  {p:"je",c:"viens",d:["vient","venons","venez"]},
-  {p:"tu",c:"viens",d:["vient","venons","viennent"]},
-  {p:"il",c:"vient",d:["viens","venons","viennent"]},
-  {p:"nous",c:"venons",d:["venez","viennent","vient"]},
-  {p:"ils",c:"viennent",d:["venez","venons","vient"]}
-]);
-addQ("venir","Indicatif","Imparfait",[
-  {p:"je",c:"venais",d:["venait","venions","viens"]},
-  {p:"il",c:"venait",d:["venais","venions","viendra"]}
-]);
-addQ("venir","Indicatif","Passé composé",[
-  {p:"je",c:"suis venu",d:["suis venue","es venu","est venu"]},
-  {p:"nous",c:"sommes venus",d:["êtes venus","sont venus","avons venu"]}
-]);
-addQ("venir","Indicatif","Futur simple",[
-  {p:"je",c:"viendrai",d:["viendras","viendra","viendrons"]},
-  {p:"ils",c:"viendront",d:["viendrez","viendrons","viendra"]}
-]);
-addQ("venir","Subjonctif","Présent",[
-  {p:"que je",c:"vienne",d:["viennes","venions","viennent"]},
-  {p:"que nous",c:"venions",d:["veniez","viennent","venons"]}
-]);
-addQ("venir","Conditionnel","Présent",[
-  {p:"je",c:"viendrais",d:["viendrait","viendrions","viendriez"]},
-  {p:"il",c:"viendrait",d:["viendrais","viendrions","viendra"]}
-]);
+addQ("venir","Indicatif","Présent",[{p:"je",c:"viens",d:["vient","venons","venez"]},{p:"tu",c:"viens",d:["vient","venons","viennent"]},{p:"il",c:"vient",d:["viens","venons","viennent"]},{p:"nous",c:"venons",d:["venez","viennent","vient"]},{p:"ils",c:"viennent",d:["venez","venons","vient"]}]);
+addQ("venir","Indicatif","Imparfait",[{p:"je",c:"venais",d:["venait","venions","viens"]},{p:"il",c:"venait",d:["venais","venions","viendra"]}]);
+addQ("venir","Indicatif","Passé composé",[{p:"je",c:"suis venu",d:["suis venue","es venu","est venu"]},{p:"nous",c:"sommes venus",d:["êtes venus","sont venus","avons venu"]}]);
+addQ("venir","Indicatif","Futur simple",[{p:"je",c:"viendrai",d:["viendras","viendra","viendrons"]},{p:"ils",c:"viendront",d:["viendrez","viendrons","viendra"]}]);
+addQ("venir","Subjonctif","Présent",[{p:"que je",c:"vienne",d:["viennes","venions","viennent"]},{p:"que nous",c:"venions",d:["veniez","viennent","venons"]}]);
+addQ("venir","Conditionnel","Présent",[{p:"je",c:"viendrais",d:["viendrait","viendrions","viendriez"]},{p:"il",c:"viendrait",d:["viendrais","viendrions","viendra"]}]);
 addQ("venir","Participe","Passé",[{p:"(être)",c:"venu",d:["venant","venir","est venu"]}]);
 addQ("venir","Participe","Présent",[{p:"en",c:"venant",d:["venu","venir","être venu"]}]);
 
 // ── PRENDRE ──
-addQ("prendre","Indicatif","Présent",[
-  {p:"je",c:"prends",d:["prend","prenons","prenez"]},
-  {p:"tu",c:"prends",d:["prend","prenons","prennent"]},
-  {p:"il",c:"prend",d:["prends","prenons","prennent"]},
-  {p:"nous",c:"prenons",d:["prenez","prennent","prend"]},
-  {p:"ils",c:"prennent",d:["prenez","prenons","prend"]}
-]);
-addQ("prendre","Indicatif","Imparfait",[
-  {p:"je",c:"prenais",d:["prenait","prenions","prends"]},
-  {p:"il",c:"prenait",d:["prenais","prenions","prendra"]}
-]);
-addQ("prendre","Indicatif","Passé composé",[
-  {p:"j'",c:"ai pris",d:["a pris","avons pris","prenais"]},
-  {p:"nous",c:"avons pris",d:["avez pris","ont pris","a pris"]}
-]);
-addQ("prendre","Indicatif","Futur simple",[
-  {p:"je",c:"prendrai",d:["prendras","prendra","prendrons"]},
-  {p:"ils",c:"prendront",d:["prendrez","prendrons","prendra"]}
-]);
-addQ("prendre","Subjonctif","Présent",[
-  {p:"que je",c:"prenne",d:["prennes","prenions","prennent"]},
-  {p:"que nous",c:"prenions",d:["preniez","prennent","prenons"]}
-]);
-addQ("prendre","Conditionnel","Présent",[
-  {p:"je",c:"prendrais",d:["prendrait","prendrions","prendriez"]},
-  {p:"il",c:"prendrait",d:["prendrais","prendrions","prendra"]}
-]);
+addQ("prendre","Indicatif","Présent",[{p:"je",c:"prends",d:["prend","prenons","prenez"]},{p:"tu",c:"prends",d:["prend","prenons","prennent"]},{p:"il",c:"prend",d:["prends","prenons","prennent"]},{p:"nous",c:"prenons",d:["prenez","prennent","prend"]},{p:"ils",c:"prennent",d:["prenez","prenons","prend"]}]);
+addQ("prendre","Indicatif","Imparfait",[{p:"je",c:"prenais",d:["prenait","prenions","prends"]},{p:"il",c:"prenait",d:["prenais","prenions","prendra"]}]);
+addQ("prendre","Indicatif","Passé composé",[{p:"j'",c:"ai pris",d:["a pris","avons pris","prenais"]},{p:"nous",c:"avons pris",d:["avez pris","ont pris","a pris"]}]);
+addQ("prendre","Indicatif","Futur simple",[{p:"je",c:"prendrai",d:["prendras","prendra","prendrons"]},{p:"ils",c:"prendront",d:["prendrez","prendrons","prendra"]}]);
+addQ("prendre","Subjonctif","Présent",[{p:"que je",c:"prenne",d:["prennes","prenions","prennent"]},{p:"que nous",c:"prenions",d:["preniez","prennent","prenons"]}]);
+addQ("prendre","Conditionnel","Présent",[{p:"je",c:"prendrais",d:["prendrait","prendrions","prendriez"]},{p:"il",c:"prendrait",d:["prendrais","prendrions","prendra"]}]);
 addQ("prendre","Participe","Passé",[{p:"(avoir)",c:"pris",d:["prenant","prendre","prenais"]}]);
 addQ("prendre","Participe","Présent",[{p:"en",c:"prenant",d:["pris","prendre","avoir pris"]}]);
 
 // ── PARTIR ──
-addQ("partir","Indicatif","Présent",[
-  {p:"je",c:"pars",d:["part","partons","partez"]},
-  {p:"tu",c:"pars",d:["part","partons","partent"]},
-  {p:"il",c:"part",d:["pars","partons","partent"]},
-  {p:"nous",c:"partons",d:["partez","partent","part"]},
-  {p:"ils",c:"partent",d:["partez","partons","part"]}
-]);
-addQ("partir","Indicatif","Imparfait",[
-  {p:"je",c:"partais",d:["partait","partions","pars"]},
-  {p:"il",c:"partait",d:["partais","partions","partira"]}
-]);
-addQ("partir","Indicatif","Passé composé",[
-  {p:"je",c:"suis parti",d:["suis partie","es parti","est parti"]},
-  {p:"nous",c:"sommes partis",d:["êtes partis","sont partis","avons parti"]}
-]);
-addQ("partir","Indicatif","Futur simple",[
-  {p:"je",c:"partirai",d:["partiras","partira","partirons"]},
-  {p:"ils",c:"partiront",d:["partirez","partirons","partira"]}
-]);
-addQ("partir","Subjonctif","Présent",[
-  {p:"que je",c:"parte",d:["partes","partions","partent"]},
-  {p:"que nous",c:"partions",d:["partiez","partent","partons"]}
-]);
-addQ("partir","Conditionnel","Présent",[
-  {p:"je",c:"partirais",d:["partirait","partirions","partiriez"]},
-  {p:"il",c:"partirait",d:["partirais","partirions","partira"]}
-]);
+addQ("partir","Indicatif","Présent",[{p:"je",c:"pars",d:["part","partons","partez"]},{p:"tu",c:"pars",d:["part","partons","partent"]},{p:"il",c:"part",d:["pars","partons","partent"]},{p:"nous",c:"partons",d:["partez","partent","part"]},{p:"ils",c:"partent",d:["partez","partons","part"]}]);
+addQ("partir","Indicatif","Imparfait",[{p:"je",c:"partais",d:["partait","partions","pars"]},{p:"il",c:"partait",d:["partais","partions","partira"]}]);
+addQ("partir","Indicatif","Passé composé",[{p:"je",c:"suis parti",d:["suis partie","es parti","est parti"]},{p:"nous",c:"sommes partis",d:["êtes partis","sont partis","avons parti"]}]);
+addQ("partir","Indicatif","Futur simple",[{p:"je",c:"partirai",d:["partiras","partira","partirons"]},{p:"ils",c:"partiront",d:["partirez","partirons","partira"]}]);
+addQ("partir","Subjonctif","Présent",[{p:"que je",c:"parte",d:["partes","partions","partent"]},{p:"que nous",c:"partions",d:["partiez","partent","partons"]}]);
+addQ("partir","Conditionnel","Présent",[{p:"je",c:"partirais",d:["partirait","partirions","partiriez"]},{p:"il",c:"partirait",d:["partirais","partirions","partira"]}]);
 addQ("partir","Participe","Passé",[{p:"(être)",c:"parti",d:["partant","partir","est parti"]}]);
 addQ("partir","Participe","Présent",[{p:"en",c:"partant",d:["parti","partir","être parti"]}]);
 
@@ -896,7 +410,7 @@ addQ("partir","Participe","Présent",[{p:"en",c:"partant",d:["parti","partir","�
 const VERBE_GROUPE = {};
 Object.entries(GROUPES).forEach(([g,vs])=>vs.forEach(v=>{VERBE_GROUPE[v]=g;}));
 
-// ─── POKÉMONS VOLANTS ─────────────────────────────────────────────────────────
+// ─── POKÉMONS ─────────────────────────────────────────────────────────────────
 const POKES_FLY=[
   `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="34" rx="16" ry="14" fill="#F7C948"/><ellipse cx="22" cy="26" rx="8" ry="9" fill="#F7C948"/><ellipse cx="38" cy="26" rx="8" ry="9" fill="#F7C948"/><ellipse cx="22" cy="22" rx="5" ry="6" fill="#C8860A"/><ellipse cx="38" cy="22" rx="5" ry="6" fill="#C8860A"/><circle cx="25" cy="28" r="3" fill="#222"/><circle cx="35" cy="28" r="3" fill="#222"/><circle cx="26" cy="27" r="1" fill="white"/><circle cx="36" cy="27" r="1" fill="white"/><ellipse cx="23" cy="36" rx="5" ry="3" fill="#E8474A"/><ellipse cx="37" cy="36" rx="5" ry="3" fill="#E8474A"/><path d="M27 32 Q30 35 33 32" stroke="#222" stroke-width="1.5" fill="none"/><path d="M18 14 L14 4 L22 10 Z" fill="#F7C948" stroke="#C8860A" stroke-width="1"/><path d="M42 14 L46 4 L38 10 Z" fill="#F7C948" stroke="#C8860A" stroke-width="1"/></svg>`,
   `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="38" rx="18" ry="14" fill="#4A9FD4"/><ellipse cx="30" cy="28" rx="13" ry="12" fill="#9EDFF7"/><circle cx="23" cy="26" r="4" fill="#222"/><circle cx="37" cy="26" r="4" fill="#222"/><path d="M25 32 Q30 36 35 32" stroke="#222" stroke-width="1.5" fill="none"/></svg>`,
@@ -934,7 +448,6 @@ const REWARDS=[
   {poke:'pikachu',  title:"PARFAIT ! Tu es légendaire !",     sub:"Quelle énergie ! Quelle puissance ! Félicitation !",                stars:3,blink:true}
 ];
 
-// ─── ÉTAT ─────────────────────────────────────────────────────────────────────
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 let selVerbes=new Set(ALL_VERBES);
 let selTemps=new Set(["Indicatif|Présent"]);
@@ -944,11 +457,7 @@ const TOTAL=10;
 
 function buildPool(){
   const p=[];
-  selVerbes.forEach(v=>{
-    selTemps.forEach(k=>{
-      if(DB[v]&&DB[v][k])DB[v][k].forEach(q=>p.push({...q,verbe:v,groupe:VERBE_GROUPE[v]||'',temps:k}));
-    });
-  });
+  selVerbes.forEach(v=>{selTemps.forEach(k=>{if(DB[v]&&DB[v][k])DB[v][k].forEach(q=>p.push({...q,verbe:v,groupe:VERBE_GROUPE[v]||'',temps:k}));});});
   return p;
 }
 
@@ -960,17 +469,11 @@ function updateSetupState(){
 }
 
 function buildSetup(){
-  // Verbes par groupe
   Object.entries(GROUPES).forEach(([g,vs])=>{
     const id={'1er groupe':'g1-chips','2ème groupe':'g2-chips','3ème groupe':'g3-chips'}[g];
     const box=document.getElementById(id);box.innerHTML='';
-    vs.forEach(v=>{
-      const c=document.createElement('span');c.className='chip'+(selVerbes.has(v)?' active':'');
-      c.textContent=v;c.onclick=()=>{selVerbes.has(v)?selVerbes.delete(v):selVerbes.add(v);c.classList.toggle('active');updateSetupState();};
-      box.appendChild(c);
-    });
+    vs.forEach(v=>{const c=document.createElement('span');c.className='chip'+(selVerbes.has(v)?' active':'');c.textContent=v;c.onclick=()=>{selVerbes.has(v)?selVerbes.delete(v):selVerbes.add(v);c.classList.toggle('active');updateSetupState();};box.appendChild(c);});
   });
-  // Temps par mode
   const cont=document.getElementById('temps-par-mode');cont.innerHTML='';
   Object.entries(MODES_TEMPS).forEach(([mode,temps])=>{
     const ml=document.createElement('div');ml.className='mode-label';ml.textContent=mode;cont.appendChild(ml);
@@ -1002,7 +505,6 @@ function nextQuestion(){
   if(idx>=queue.length){endGame();return;}
   const q=queue[idx];answered=false;
   document.getElementById('progress').textContent='Question '+(idx+1)+' / '+queue.length;
-  // badge : mode + temps
   const [mode,temps]=q.temps.split('|');
   document.getElementById('gbadge').textContent=q.groupe;
   document.getElementById('tbadge').textContent=mode+' · '+temps;
@@ -1051,43 +553,36 @@ function timeOut(){
   document.getElementById('nxtbtn').style.display='';idx++;
 }
 
-// ─── TRAJECTOIRE ABEILLE (sinusoïdale + ondulations aléatoires) ───────────────
+// ─── TRAJECTOIRE ABEILLE ──────────────────────────────────────────────────────
 function launchPokeBee(){
   const svgStr=POKES_FLY[Math.floor(Math.random()*POKES_FLY.length)];
   const el=document.createElement('div');
   el.style.cssText='position:fixed;width:60px;height:60px;pointer-events:none;z-index:9999;';
   el.innerHTML=svgStr;
   document.body.appendChild(el);
-
   const goRight=Math.random()>0.5;
   const W=window.innerWidth, H=window.innerHeight;
   const startX=goRight?-70:W+70;
   const endX=goRight?W+70:-70;
   const baseY=H*(0.15+Math.random()*0.55);
-
-  // paramètres d'oscillation type "abeille"
-  const freq1=2+Math.random()*3;   // fréquence principale
-  const freq2=5+Math.random()*4;   // fréquence secondaire (frémissement)
-  const amp1=40+Math.random()*50;  // amplitude principale
-  const amp2=8+Math.random()*12;   // amplitude secondaire (frémissement)
+  const freq1=2+Math.random()*3;
+  const freq2=5+Math.random()*4;
+  const amp1=40+Math.random()*50;
+  const amp2=8+Math.random()*12;
   const phase1=Math.random()*Math.PI*2;
   const phase2=Math.random()*Math.PI*2;
-
   let t0=null;
   const dur=3000+Math.random()*2000;
-
   function step(ts){
     if(!t0)t0=ts;
     const t=(ts-t0)/dur;
     if(t>=1){el.remove();return;}
     const x=startX+(endX-startX)*t;
-    const y=baseY + Math.sin(t*Math.PI*2*freq1+phase1)*amp1 + Math.sin(t*Math.PI*2*freq2+phase2)*amp2;
-    // légère rotation selon la direction
+    const y=baseY+Math.sin(t*Math.PI*2*freq1+phase1)*amp1+Math.sin(t*Math.PI*2*freq2+phase2)*amp2;
     const dy=Math.cos(t*Math.PI*2*freq1+phase1)*amp1*0.3;
     const angle=goRight?dy:-dy;
-    el.style.transform=`rotate(${angle}deg)`;
-    el.style.left=x+'px';
-    el.style.top=y+'px';
+    el.style.transform='rotate('+angle+'deg)';
+    el.style.left=x+'px';el.style.top=y+'px';
     requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
