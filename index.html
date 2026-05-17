@@ -1,113 +1,1128 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{background:#0a2e38;min-height:100vh;font-family:Arial,Helvetica,sans-serif;}
-#root{min-height:100vh;background:#0a2e38;padding:12px;}
-#game-frame{position:relative;z-index:1;max-width:580px;margin:0 auto;padding:16px;border:2px solid #B8860B;border-radius:12px;background:#87CEEB;box-shadow:0 0 24px rgba(184,134,11,0.25);}
-#logo-wrap{position:absolute;top:10px;right:12px;width:clamp(90px,22vw,140px);z-index:10;}
-#logo-wrap img{width:100%;height:auto;display:block;border-radius:6px;}
-.setup-title{font-size:clamp(18px,4vw,24px);font-weight:700;color:#0a2e38;margin-bottom:4px;padding-right:clamp(95px,23vw,150px);}
-.setup-sub{font-size:clamp(13px,3vw,15px);color:#1a5070;margin-bottom:16px;padding-right:clamp(95px,23vw,150px);}
-.setup-card{background:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.7);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
-.section-title{font-size:clamp(11px,2.5vw,13px);font-weight:700;color:#0a2e38;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
-.chip-grid{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
-.chip{padding:7px 12px;border-radius:20px;border:1px solid rgba(10,46,56,0.3);background:rgba(255,255,255,0.5);color:#0a2e38;font-size:clamp(12px,3vw,14px);cursor:pointer;user-select:none;}
+html,body{background:#0a2e38;min-height:100vh;font-family:'Atkinson Hyperlegible',Arial,sans-serif;font-size:16px;-webkit-text-size-adjust:100%;}
+#root{min-height:100vh;background:#0a2e38;padding:10px;}
+#game-frame{position:relative;max-width:600px;margin:0 auto;padding:14px;border:2px solid #B8860B;border-radius:12px;background:#87CEEB;box-shadow:0 0 24px rgba(184,134,11,0.25);}
+#brand{position:absolute;top:10px;right:12px;text-align:right;line-height:1.25;z-index:10;}
+#brand .bn{display:block;font-size:clamp(11px,2.8vw,15px);font-weight:700;color:#8B1A1A;text-shadow:-1px -1px 0 rgba(255,255,255,0.55),1px 1px 0 rgba(255,255,255,0.55);}
+#brand .bs{display:block;font-size:clamp(9px,2vw,12px);color:#0a2e38;}
+.setup-title{font-size:clamp(17px,4vw,22px);font-weight:700;color:#0a2e38;margin-bottom:4px;padding-right:clamp(90px,25vw,150px);}
+.setup-sub{font-size:clamp(12px,3vw,14px);color:#1a5070;margin-bottom:12px;padding-right:clamp(90px,25vw,150px);}
+.setup-card{background:rgba(255,255,255,0.48);border:1px solid rgba(255,255,255,0.75);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.section-title{font-size:clamp(10px,2.4vw,12px);font-weight:700;color:#0a2e38;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.groupe-label{font-size:clamp(11px,2.6vw,13px);font-weight:700;color:#1a5070;margin-bottom:5px;margin-top:8px;}
+.chip-grid{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;}
+.chip{padding:6px 10px;border-radius:18px;border:1.5px solid rgba(10,46,56,0.28);background:rgba(255,255,255,0.52);color:#0a2e38;font-size:clamp(11px,2.8vw,13px);font-family:'Atkinson Hyperlegible',Arial,sans-serif;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.3;}
 .chip.active{background:#0a2e38;border-color:#0a2e38;color:#6de08a;font-weight:700;}
-.chip:hover:not(.active){background:rgba(255,255,255,0.7);}
+.chip:hover:not(.active){background:rgba(255,255,255,0.72);}
+.temps-section{margin-bottom:4px;}
+.mode-label{font-size:clamp(10px,2.5vw,12px);font-weight:700;color:#8B1A1A;text-transform:uppercase;letter-spacing:.05em;margin-top:8px;margin-bottom:4px;}
 .timer-options{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.timer-toggle{display:flex;align-items:center;gap:8px;font-size:clamp(13px,3vw,15px);color:#0a2e38;cursor:pointer;font-weight:600;}
-.timer-secs{display:flex;gap:6px;flex-wrap:wrap;}
-.sec-chip{padding:6px 12px;border-radius:16px;border:1px solid rgba(10,46,56,0.3);background:rgba(255,255,255,0.5);color:#0a2e38;font-size:clamp(12px,3vw,14px);cursor:pointer;font-weight:600;}
-.sec-chip.active{background:#0a2e38;border-color:#0a2e38;color:#6de08a;font-weight:700;}
-.start-btn{width:100%;padding:15px;font-size:clamp(15px,3.5vw,17px);font-weight:700;border-radius:8px;border:2px solid #B8860B;background:linear-gradient(135deg,#1a0a00,#2a1500);color:#F7C948;cursor:pointer;margin-top:8px;}
+.timer-toggle{display:flex;align-items:center;gap:8px;font-size:clamp(12px,3vw,14px);color:#0a2e38;cursor:pointer;font-weight:700;}
+.timer-secs{display:flex;gap:5px;flex-wrap:wrap;}
+.sec-chip{padding:5px 10px;border-radius:16px;border:1.5px solid rgba(10,46,56,0.28);background:rgba(255,255,255,0.52);color:#0a2e38;font-size:clamp(11px,2.8vw,13px);font-family:'Atkinson Hyperlegible',Arial,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;font-weight:700;}
+.sec-chip.active{background:#0a2e38;border-color:#0a2e38;color:#6de08a;}
+.start-btn{width:100%;padding:14px;font-size:clamp(14px,3.5vw,16px);font-weight:700;font-family:'Atkinson Hyperlegible',Arial,sans-serif;border-radius:8px;border:2px solid #B8860B;background:linear-gradient(135deg,#1a0a00,#2a1500);color:#F7C948;cursor:pointer;margin-top:8px;-webkit-tap-highlight-color:transparent;}
 .start-btn:disabled{background:rgba(255,255,255,0.3);border-color:rgba(10,46,56,0.2);color:rgba(10,46,56,0.35);cursor:default;}
-.warn{font-size:clamp(12px,3vw,14px);color:#1a5070;text-align:center;margin-top:8px;min-height:18px;}
-.count-info{font-size:clamp(12px,3vw,14px);color:#1a5070;margin-bottom:8px;}
-.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;padding-right:clamp(95px,23vw,150px);}
-.score-box{display:flex;gap:8px;}
-.metric{background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);border-radius:8px;padding:6px 12px;text-align:center;}
-.metric-label{font-size:clamp(10px,2.5vw,12px);color:#1a5070;font-weight:600;}
-.metric-value{font-size:clamp(16px,3.5vw,20px);font-weight:700;color:#0a2e38;}
-.back-mini{font-size:clamp(12px,3vw,14px);padding:8px 12px;border-radius:8px;border:1px solid rgba(10,46,56,0.3);background:rgba(255,255,255,0.5);cursor:pointer;color:#0a2e38;font-weight:600;white-space:nowrap;}
-.progress{font-size:clamp(11px,2.5vw,13px);color:#1a5070;text-align:right;margin-bottom:5px;font-weight:600;}
-.tbar-wrap{background:rgba(255,255,255,0.4);border-radius:4px;height:6px;margin-bottom:10px;overflow:hidden;}
-#tbar{height:6px;border-radius:4px;background:#0a2e38;transition:width .1s linear,background .3s;width:100%;}
-.question-card{background:rgba(255,255,255,0.5);border:2px solid rgba(255,255,255,0.8);border-radius:10px;padding:clamp(12px,3vw,20px);margin-bottom:10px;}
-.tag{display:inline-block;font-size:clamp(10px,2.5vw,12px);padding:3px 10px;border-radius:6px;font-weight:700;margin-bottom:10px;}
+.warn{font-size:clamp(11px,3vw,13px);color:#1a5070;text-align:center;margin-top:7px;min-height:16px;}
+.count-info{font-size:clamp(11px,3vw,13px);color:#1a5070;margin-bottom:6px;}
+.game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;padding-right:clamp(90px,25vw,150px);}
+.score-box{display:flex;gap:7px;}
+.metric{background:rgba(255,255,255,0.52);border:1px solid rgba(255,255,255,0.82);border-radius:8px;padding:5px 10px;text-align:center;}
+.metric-label{font-size:clamp(9px,2.3vw,11px);color:#1a5070;font-weight:700;}
+.metric-value{font-size:clamp(15px,3.5vw,19px);font-weight:700;color:#0a2e38;}
+.back-mini{font-size:clamp(11px,2.8vw,13px);padding:7px 11px;border-radius:8px;border:1.5px solid rgba(10,46,56,0.28);background:rgba(255,255,255,0.52);cursor:pointer;color:#0a2e38;font-weight:700;font-family:'Atkinson Hyperlegible',Arial,sans-serif;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
+.progress{font-size:clamp(10px,2.4vw,12px);color:#1a5070;text-align:right;margin-bottom:4px;font-weight:700;}
+.tbar-wrap{background:rgba(255,255,255,0.42);border-radius:4px;height:7px;margin-bottom:9px;overflow:hidden;}
+#tbar{height:7px;border-radius:4px;background:#0a2e38;transition:width .1s linear,background .3s;width:100%;}
+.question-card{background:rgba(255,255,255,0.52);border:2px solid rgba(255,255,255,0.82);border-radius:10px;padding:clamp(10px,3vw,18px);margin-bottom:9px;}
+.tag{display:inline-block;font-size:clamp(9px,2.3vw,11px);padding:3px 8px;border-radius:6px;font-weight:700;margin-bottom:10px;font-family:'Atkinson Hyperlegible',Arial,sans-serif;}
 .tag-g{background:#0a2e38;color:#6de08a;}
-.tag-t{background:#1a5070;color:#a0d8f0;margin-left:6px;}
-.qlabel{font-size:clamp(14px,3.5vw,18px);color:#0d6b3a;margin-bottom:4px;font-weight:700;}
-.qverb{font-size:clamp(22px,6vw,32px);font-weight:700;color:#8B1A1A;letter-spacing:.06em;text-align:center;margin-bottom:14px;text-shadow:-1px -1px 0 rgba(255,255,255,0.6),1px -1px 0 rgba(255,255,255,0.6),-1px 1px 0 rgba(255,255,255,0.6),1px 1px 0 rgba(255,255,255,0.6);}
-.slabel{font-size:clamp(14px,3.5vw,18px);color:#0d6b3a;margin-bottom:4px;font-weight:700;}
-.sval{font-size:clamp(20px,5vw,28px);font-weight:700;color:#8B1A1A;letter-spacing:.06em;text-align:center;margin-bottom:16px;text-shadow:-1px -1px 0 rgba(255,255,255,0.6),1px -1px 0 rgba(255,255,255,0.6),-1px 1px 0 rgba(255,255,255,0.6),1px 1px 0 rgba(255,255,255,0.6);}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.cbtn{background:rgba(255,255,255,0.55);border:2px solid rgba(10,46,56,0.25);border-radius:8px;padding:clamp(12px,3vw,16px) 8px;font-size:clamp(13px,3.5vw,17px);font-weight:700;color:#0a2e38;cursor:pointer;text-align:center;font-family:Arial,Helvetica,sans-serif;line-height:1.3;}
-.cbtn.correct{background:#c8f0c8;border-color:#2a8a2a;color:#0a3a0a;}
-.cbtn.wrong{background:#4A1B0C;border-color:#8B1A1A;color:#F5C4B3;}
+.tag-t{background:#1a5070;color:#a0d8f0;margin-left:5px;}
+.slabel{font-size:clamp(13px,3.3vw,16px);color:#0d6b3a;margin-bottom:3px;font-weight:700;}
+.sval{font-size:clamp(20px,5.5vw,30px);font-weight:700;color:#8B1A1A;letter-spacing:.04em;text-align:center;margin-bottom:12px;text-shadow:-1px -1px 0 rgba(255,255,255,0.65),1px -1px 0 rgba(255,255,255,0.65),-1px 1px 0 rgba(255,255,255,0.65),1px 1px 0 rgba(255,255,255,0.65);}
+.qlabel{font-size:clamp(13px,3.3vw,16px);color:#0d6b3a;margin-bottom:3px;font-weight:700;}
+.qverb{font-size:clamp(17px,4.5vw,24px);font-weight:700;color:#8B1A1A;letter-spacing:.04em;text-align:center;margin-bottom:14px;text-shadow:-1px -1px 0 rgba(255,255,255,0.65),1px -1px 0 rgba(255,255,255,0.65),-1px 1px 0 rgba(255,255,255,0.65),1px 1px 0 rgba(255,255,255,0.65);}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.cbtn{background:rgba(255,255,255,0.58);border:2px solid rgba(10,46,56,0.22);border-radius:8px;padding:clamp(11px,3vw,15px) 7px;font-size:clamp(12px,3.5vw,16px);font-weight:700;color:#0a2e38;cursor:pointer;transition:background .12s;text-align:center;font-family:'Atkinson Hyperlegible',Arial,sans-serif;-webkit-tap-highlight-color:transparent;line-height:1.35;min-height:54px;}
+.cbtn:active:not(:disabled){background:rgba(255,255,255,0.82);}
+.cbtn.correct{background:#c6f0c6;border-color:#2a8a2a;color:#0a3a0a;}
+.cbtn.wrong{background:#3d0a0a;border-color:#8B1A1A;color:#f5c4b0;}
 .cbtn:disabled{cursor:default;}
-.feedback{min-height:30px;text-align:center;font-size:clamp(13px,3.5vw,16px);font-weight:700;margin-bottom:10px;color:#1a5070;}
-.feedback.ok{color:#B8860B;}
-.feedback.ko{color:#8B1A1A;}
-.nxtbtn{width:100%;padding:clamp(11px,3vw,14px);font-size:clamp(13px,3.5vw,16px);border-radius:8px;border:2px solid rgba(10,46,56,0.3);background:rgba(255,255,255,0.5);color:#0a2e38;cursor:pointer;font-weight:700;}
-.end-screen{text-align:center;padding:clamp(12px,4vw,24px) clamp(8px,3vw,16px);}
-.end-screen h2{font-size:clamp(18px,5vw,26px);font-weight:700;margin-bottom:6px;color:#0a2e38;}
-.end-sub{font-size:clamp(12px,3.5vw,15px);color:#1a5070;margin-bottom:14px;line-height:1.5;font-weight:600;}
-.stars-row{font-size:clamp(28px,8vw,42px);margin-bottom:12px;letter-spacing:4px;}
+.feedback{min-height:30px;text-align:center;font-size:clamp(12px,3.3vw,15px);font-weight:700;margin-bottom:9px;font-family:'Atkinson Hyperlegible',Arial,sans-serif;line-height:1.4;}
+.feedback.ok{color:#7a5500;}
+.feedback.ko{color:#7a1a1a;}
+.nxtbtn{width:100%;padding:clamp(11px,3vw,14px);font-size:clamp(12px,3.3vw,15px);border-radius:8px;border:2px solid rgba(10,46,56,0.28);background:rgba(255,255,255,0.52);color:#0a2e38;cursor:pointer;font-weight:700;font-family:'Atkinson Hyperlegible',Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
+.end-screen{text-align:center;padding:clamp(10px,4vw,20px) clamp(6px,3vw,14px);}
+.end-screen h2{font-size:clamp(17px,5vw,24px);font-weight:700;margin-bottom:5px;color:#0a2e38;line-height:1.3;}
+.end-sub{font-size:clamp(12px,3.3vw,14px);color:#1a5070;margin-bottom:12px;line-height:1.6;font-weight:700;}
+.stars-row{font-size:clamp(28px,8vw,42px);margin-bottom:10px;letter-spacing:5px;}
 .stars-row span.lit{color:#B8860B;}
-.stars-row span.dim{color:rgba(10,46,56,0.2);}
+.stars-row span.dim{color:rgba(10,46,56,0.18);}
 .stars-row span.blink{animation:blink .6s infinite alternate;}
-@keyframes blink{from{color:rgba(10,46,56,0.2)}to{color:#F7C948}}
-.end-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;}
-.restart-btn{font-size:clamp(13px,3.5vw,15px);padding:11px 22px;border-radius:8px;border:2px solid rgba(10,46,56,0.3);background:rgba(255,255,255,0.5);cursor:pointer;color:#0a2e38;font-weight:700;}
-.change-btn{font-size:clamp(13px,3.5vw,15px);padding:11px 22px;border-radius:8px;border:2px solid #B8860B;background:linear-gradient(135deg,#1a0a00,#2a1500);color:#F7C948;cursor:pointer;font-weight:700;}
-.final-metrics{display:flex;gap:10px;justify-content:center;margin-bottom:12px;}
+@keyframes blink{from{color:rgba(10,46,56,0.18)}to{color:#F7C948}}
+.end-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.restart-btn{font-size:clamp(12px,3.3vw,14px);padding:10px 20px;border-radius:8px;border:2px solid rgba(10,46,56,0.28);background:rgba(255,255,255,0.52);cursor:pointer;color:#0a2e38;font-weight:700;font-family:'Atkinson Hyperlegible',Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
+.change-btn{font-size:clamp(12px,3.3vw,14px);padding:10px 20px;border-radius:8px;border:2px solid #B8860B;background:linear-gradient(135deg,#1a0a00,#2a1500);color:#F7C948;cursor:pointer;font-weight:700;font-family:'Atkinson Hyperlegible',Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
+.final-metrics{display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
 </style>
 </head>
 <body>
 <div id="root"><div id="game-frame">
+<div id="brand"><span class="bn">API Master</span><span class="bs">soutien scolaire</span></div>
 
-<div id="logo-wrap"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADVAoADASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAYHBAUIAgMJAf/EAFIQAAEDAwEFBAYDCwcICwAAAAEAAgMEBREGBxIhMUETUXGBFCIyYZGhCBWxIzZCUmJyc3SywdEWJDM0Q4LhJjdEhKKz8PEJFyUnNUVTY5KT0v/EABsBAQACAwEBAAAAAAAAAAAAAAADBAECBQYH/8QAPBEAAgEDAQUECQIFAgcAAAAAAAECAwQRIQUSMUFxBhNRYSIygZGhscHR8BRCIzNy4fEVohYkNDVSksL/2gAMAwEAAhEDEQA/AOMkREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREARe6kpKqsmEFJTzVEp5MiYXuPkFMbRsl2k3WIy0ejLwWYzmWDss+G/jKjqVYU1mbS6mVFvgiEIrCOxTakB959byz/SR/8A6Wlu+zzXVpjfJcNJXqCNntPNG8tHvyAQo4XdCbxGaftRs6c1xRF0X65paSCCCOBBX4rBoEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBeUUb5ZGxxMc97yGta0ZJJ5ADqVu9DaTvms9QQWOwUbqmql4k8mRN6ve7o0d/w4rvPYjsG0Xs0tcN3rxFdtSYDjWTsyyB2OUbPwfHme/oqte7hR0b14/wCSSFNy1ObdlH0XNb6qZFcdR/5NWpw3gZ2b1TIOY3Y/wc97iMdyu6l2EaQ0ZTwQ2S1WS7XMcZK2+b1VukHpC3Dfsxw5q5bheKqtyyDfYxo9ZxPMHp7h7liR0E8p3II3PdglzhyHDj4Ly13tqpVlijr8vdz9uhfp2sYr0jW2qaK3WaKnqbdafSmE7z6KlFKzHT1GknA5YJVf7R9prrJV+gWyippK84fL2jTuRA8gcHJcRx5jA78r17S9r+nNN6iOkiKiruUD2CpbHusiZv4Ibv8AU4IyMcFSt0rJbhcqmunOZaiV0juOeJOceXLyUtpYVq9TvbtdNEvkek7O2FC7qSbWYx5eb/wX67aPoqmtlvqrtqC022atp2TdjNKA5jiMOGME8HZ5rxs20XQV5q2Ulv1lZ5KnJ3Y3VJYXeG8AD8VxjtZgey9UtT+BLTBo49Wkg/IhQxWI9m7ea3t569Dh7QrztrqpRS0i2vZy+B9Hb1oGyagonPu1gtlayUDekkpGknPI74GR5FU7tB+jDYquF8+lame01QDiIXOdUQOI78+uz4nwXL9Bq/VdvhZBQ6mvVLEzG7HDXSsaMcuAdhWjoP6Suv8AT0MdJdnU+oqVjs5rS4VAB5gStOcfnAreOybq21oVX05e55RR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" alt="API Master"></div>
-
+<!-- SETUP -->
 <div id="setup-screen">
-<div class="setup-title">Jeu de conjugaison</div>
-<div class="setup-sub">Choisis tes verbes, tes temps et tes options.</div>
-<div class="setup-card">
-<div class="section-title">Verbes</div><div class="chip-grid" id="verbes-chips"></div>
-<div class="section-title">Temps</div><div class="chip-grid" id="temps-chips"></div>
-<div class="section-title">Timer</div>
-<div class="timer-options">
-<label class="timer-toggle"><input type="checkbox" id="timer-on" checked style="margin:0;width:18px;height:18px;accent-color:#0a2e38;"> Chronomètre</label>
-<div class="timer-secs" id="timer-secs"><span class="sec-chip active" data-s="15">15 s</span><span class="sec-chip" data-s="20">20 s</span><span class="sec-chip" data-s="30">30 s</span></div>
-</div></div>
-<div class="count-info" id="count-info"></div>
-<button class="start-btn" id="start-btn" disabled onclick="startGame()">Lancer le jeu !</button>
-<div class="warn" id="warn-msg">Sélectionne au moins un verbe et un temps.</div>
+  <div class="setup-title">Jeu de conjugaison</div>
+  <div class="setup-sub">Choisis tes verbes, tes temps et tes options.</div>
+  <div class="setup-card">
+    <div class="section-title">Verbes</div>
+    <div class="groupe-label">1er groupe</div>
+    <div class="chip-grid" id="g1-chips"></div>
+    <div class="groupe-label">2ème groupe</div>
+    <div class="chip-grid" id="g2-chips"></div>
+    <div class="groupe-label">3ème groupe</div>
+    <div class="chip-grid" id="g3-chips"></div>
+  </div>
+  <div class="setup-card">
+    <div class="section-title">Temps &amp; Modes</div>
+    <div id="temps-par-mode"></div>
+  </div>
+  <div class="setup-card">
+    <div class="section-title">Timer</div>
+    <div class="timer-options">
+      <label class="timer-toggle"><input type="checkbox" id="timer-on" checked style="margin:0;width:17px;height:17px;accent-color:#0a2e38;"> Chronomètre</label>
+      <div class="timer-secs" id="timer-secs">
+        <span class="sec-chip active" data-s="15">15 s</span>
+        <span class="sec-chip" data-s="20">20 s</span>
+        <span class="sec-chip" data-s="30">30 s</span>
+      </div>
+    </div>
+  </div>
+  <div class="count-info" id="count-info"></div>
+  <button class="start-btn" id="start-btn" disabled onclick="startGame()">Lancer le jeu !</button>
+  <div class="warn" id="warn-msg">Sélectionne au moins un verbe et un temps.</div>
 </div>
 
+<!-- JEU -->
 <div id="game-screen" style="display:none">
-<div class="game-header"><button class="back-mini" onclick="goSetup()">← Modifier</button><div class="score-box"><div class="metric"><div class="metric-label">Étoiles</div><div class="metric-value" id="score">0</div></div><div class="metric"><div class="metric-label">Série</div><div class="metric-value" id="serie">0</div></div></div></div>
-<div class="progress" id="progress">Question 1 / 10</div>
-<div class="tbar-wrap"><div id="tbar"></div></div>
-<div class="question-card">
-<div><span class="tag tag-g" id="gbadge"></span><span class="tag tag-t" id="tbadge"></span></div>
-<div class="slabel">sujet, qui fait l'action</div><div class="sval" id="sujet"></div>
-<div class="qlabel">action, verbe à conjuguer</div><div class="qverb" id="qtxt"></div>
-<div class="choices" id="choices"></div></div>
-<div class="feedback" id="feedback"></div>
-<button class="nxtbtn" id="nxtbtn" style="display:none" onclick="nextQuestion()">Question suivante</button>
+  <div class="game-header">
+    <button class="back-mini" onclick="goSetup()">← Modifier</button>
+    <div class="score-box">
+      <div class="metric"><div class="metric-label">Étoiles</div><div class="metric-value" id="score">0</div></div>
+      <div class="metric"><div class="metric-label">Série</div><div class="metric-value" id="serie">0</div></div>
+    </div>
+  </div>
+  <div class="progress" id="progress">Question 1 / 10</div>
+  <div class="tbar-wrap"><div id="tbar"></div></div>
+  <div class="question-card">
+    <div><span class="tag tag-g" id="gbadge"></span><span class="tag tag-t" id="tbadge"></span></div>
+    <div class="slabel">Sujet — qui fait l'action ?</div>
+    <div class="sval" id="sujet"></div>
+    <div class="qlabel">Action — verbe à conjuguer</div>
+    <div class="qverb" id="qtxt"></div>
+    <div class="choices" id="choices"></div>
+  </div>
+  <div class="feedback" id="feedback"></div>
+  <button class="nxtbtn" id="nxtbtn" style="display:none" onclick="nextQuestion()">Question suivante →</button>
 </div>
 
+<!-- FIN -->
 <div id="end-screen" class="end-screen" style="display:none">
-<div id="end-poke" style="margin:0 auto 10px;width:110px;height:110px;display:flex;align-items:center;justify-content:center;"></div>
-<h2 id="end-title"></h2><div class="end-sub" id="end-sub"></div>
-<div class="stars-row" id="end-stars-row"></div>
-<div class="final-metrics"><div class="metric"><div class="metric-label">Score</div><div class="metric-value" id="final-score"></div></div><div class="metric"><div class="metric-label">Meilleure série</div><div class="metric-value" id="final-serie"></div></div></div>
-<div class="end-btns"><button class="restart-btn" onclick="startGame()">Rejouer</button><button class="change-btn" onclick="goSetup()">Changer les verbes</button></div>
+  <div id="end-poke" style="margin:0 auto 10px;width:110px;height:110px;display:flex;align-items:center;justify-content:center;"></div>
+  <h2 id="end-title"></h2>
+  <div class="end-sub" id="end-sub"></div>
+  <div class="stars-row" id="end-stars-row"></div>
+  <div class="final-metrics">
+    <div class="metric"><div class="metric-label">Score</div><div class="metric-value" id="final-score"></div></div>
+    <div class="metric"><div class="metric-label">Meilleure série</div><div class="metric-value" id="final-serie"></div></div>
+  </div>
+  <div class="end-btns">
+    <button class="restart-btn" onclick="startGame()">Rejouer</button>
+    <button class="change-btn" onclick="goSetup()">Changer les verbes</button>
+  </div>
 </div>
 
 </div></div>
+
 <script>
+// ─── VERBES PAR GROUPE ───────────────────────────────────────────────────────
+const GROUPES = {
+  "1er groupe": ["arriver","chanter","jouer","manger","parler","travailler","accepter","tourner"],
+  "2ème groupe": ["finir","grandir","maigrir","définir","choisir","réussir","nourrir","réfléchir"],
+  "3ème groupe": ["être","avoir","aller","faire","pouvoir","venir","prendre","partir"]
+};
+const ALL_VERBES = Object.values(GROUPES).flat();
+
+// ─── MODES ET TEMPS ──────────────────────────────────────────────────────────
+const MODES_TEMPS = {
+  "Indicatif":    ["Présent","Passé composé","Imparfait","Passé simple","Futur simple","Futur antérieur","Plus-que-parfait","Passé antérieur"],
+  "Subjonctif":   ["Présent","Passé"],
+  "Conditionnel": ["Présent","Passé"],
+  "Impératif":    ["Présent"],
+  "Infinitif":    ["Présent","Passé"],
+  "Participe":    ["Présent","Passé"],
+  "Gérondif":     ["Présent","Passé"]
+};
+
+// ─── BASE DE DONNÉES (Indicatif Présent + Passé composé pour tous, + quelques autres) ─
+// Format clé : "Indicatif|Présent", "Indicatif|Imparfait", etc.
+const DB = {};
+
+function addQ(verbe, mode, temps, pronoms) {
+  const key = mode+'|'+temps;
+  if(!DB[verbe]) DB[verbe] = {};
+  if(!DB[verbe][key]) DB[verbe][key] = [];
+  DB[verbe][key].push(...pronoms);
+}
+
+// ── PARLER ──
+addQ("parler","Indicatif","Présent",[
+  {p:"je",c:"parle",d:["parles","parlons","parlent"]},
+  {p:"tu",c:"parles",d:["parle","parlons","parlent"]},
+  {p:"il",c:"parle",d:["parles","parlons","parlent"]},
+  {p:"nous",c:"parlons",d:["parlez","parlent","parle"]},
+  {p:"vous",c:"parlez",d:["parlons","parlent","parles"]},
+  {p:"ils",c:"parlent",d:["parlez","parlons","parle"]}
+]);
+addQ("parler","Indicatif","Imparfait",[
+  {p:"je",c:"parlais",d:["parlait","parlions","parle"]},
+  {p:"il",c:"parlait",d:["parlais","parlions","parlera"]},
+  {p:"nous",c:"parlions",d:["parliez","parlaient","parlais"]}
+]);
+addQ("parler","Indicatif","Passé composé",[
+  {p:"j'",c:"ai parlé",d:["a parlé","avons parlé","parlais"]},
+  {p:"nous",c:"avons parlé",d:["avez parlé","ont parlé","a parlé"]},
+  {p:"ils",c:"ont parlé",d:["avez parlé","avons parlé","a parlé"]}
+]);
+addQ("parler","Indicatif","Passé simple",[
+  {p:"je",c:"parlai",d:["parlas","parla","parlèrent"]},
+  {p:"il",c:"parla",d:["parlai","parlas","parlèrent"]},
+  {p:"ils",c:"parlèrent",d:["parla","parlâmes","parlâtes"]}
+]);
+addQ("parler","Indicatif","Futur simple",[
+  {p:"je",c:"parlerai",d:["parleras","parlera","parlerons"]},
+  {p:"tu",c:"parleras",d:["parlerai","parlera","parlerez"]},
+  {p:"ils",c:"parleront",d:["parlerez","parlerons","parlera"]}
+]);
+addQ("parler","Indicatif","Plus-que-parfait",[
+  {p:"j'",c:"avais parlé",d:["avait parlé","avions parlé","avais mangé"]},
+  {p:"il",c:"avait parlé",d:["avais parlé","avions parlé","aura parlé"]}
+]);
+addQ("parler","Subjonctif","Présent",[
+  {p:"que je",c:"parle",d:["parles","parlions","parlent"]},
+  {p:"qu'il",c:"parle",d:["parles","parlions","parlent"]},
+  {p:"que nous",c:"parlions",d:["parliez","parlent","parlons"]}
+]);
+addQ("parler","Conditionnel","Présent",[
+  {p:"je",c:"parlerais",d:["parlerait","parlerions","parlerez"]},
+  {p:"il",c:"parlerait",d:["parlerais","parlerions","parlera"]}
+]);
+addQ("parler","Participe","Présent",[{p:"en",c:"parlant",d:["parlé","parlant","avoir parlé"]}]);
+addQ("parler","Participe","Passé",[{p:"(avoir)",c:"parlé",d:["parlant","parler","parlais"]}]);
+addQ("parler","Infinitif","Présent",[{p:"—",c:"parler",d:["parlant","parlé","parlons"]}]);
+
+// ── MANGER ──
+addQ("manger","Indicatif","Présent",[
+  {p:"je",c:"mange",d:["manges","mangeons","mangez"]},
+  {p:"nous",c:"mangeons",d:["mangez","mangent","mangons"]},
+  {p:"ils",c:"mangent",d:["mangeons","mangez","mange"]}
+]);
+addQ("manger","Indicatif","Imparfait",[
+  {p:"je",c:"mangeais",d:["mangeait","mangions","mange"]},
+  {p:"nous",c:"mangions",d:["mangiez","mangeaient","mangeais"]}
+]);
+addQ("manger","Indicatif","Passé composé",[
+  {p:"j'",c:"ai mangé",d:["a mangé","avons mangé","mangeais"]},
+  {p:"nous",c:"avons mangé",d:["avez mangé","ont mangé","a mangé"]}
+]);
+addQ("manger","Indicatif","Futur simple",[
+  {p:"je",c:"mangerai",d:["mangeras","mangera","mangerons"]},
+  {p:"ils",c:"mangeront",d:["mangerez","mangerons","mangera"]}
+]);
+addQ("manger","Subjonctif","Présent",[
+  {p:"que je",c:"mange",d:["manges","mangions","mangent"]},
+  {p:"que nous",c:"mangions",d:["mangiez","mangent","mangeons"]}
+]);
+addQ("manger","Conditionnel","Présent",[
+  {p:"je",c:"mangerais",d:["mangerait","mangerions","mangerez"]},
+  {p:"il",c:"mangerait",d:["mangerais","mangerions","mangera"]}
+]);
+addQ("manger","Participe","Présent",[{p:"en",c:"mangeant",d:["mangé","mangeons","avoir mangé"]}]);
+addQ("manger","Participe","Passé",[{p:"(avoir)",c:"mangé",d:["mangeant","manger","mangeais"]}]);
+
+// ── CHANTER ──
+addQ("chanter","Indicatif","Présent",[
+  {p:"je",c:"chante",d:["chantes","chantons","chantez"]},
+  {p:"nous",c:"chantons",d:["chantez","chantent","chante"]},
+  {p:"ils",c:"chantent",d:["chantons","chantez","chante"]}
+]);
+addQ("chanter","Indicatif","Imparfait",[
+  {p:"je",c:"chantais",d:["chantait","chantions","chante"]},
+  {p:"il",c:"chantait",d:["chantais","chantions","chantera"]}
+]);
+addQ("chanter","Indicatif","Passé composé",[
+  {p:"j'",c:"ai chanté",d:["a chanté","avons chanté","chantais"]},
+  {p:"elle",c:"a chanté",d:["ai chanté","as chanté","ont chanté"]}
+]);
+addQ("chanter","Indicatif","Futur simple",[
+  {p:"je",c:"chanterai",d:["chanteras","chantera","chanterons"]},
+  {p:"ils",c:"chanteront",d:["chanterez","chanterons","chantera"]}
+]);
+addQ("chanter","Subjonctif","Présent",[
+  {p:"que je",c:"chante",d:["chantes","chantions","chantent"]},
+  {p:"que nous",c:"chantions",d:["chantiez","chantent","chantons"]}
+]);
+addQ("chanter","Conditionnel","Présent",[
+  {p:"je",c:"chanterais",d:["chanterait","chanterions","chanterez"]}
+]);
+addQ("chanter","Participe","Passé",[{p:"(avoir)",c:"chanté",d:["chantant","chanter","chantais"]}]);
+addQ("chanter","Participe","Présent",[{p:"en",c:"chantant",d:["chanté","chantons","avoir chanté"]}]);
+
+// ── JOUER ──
+addQ("jouer","Indicatif","Présent",[
+  {p:"je",c:"joue",d:["joues","jouons","jouez"]},
+  {p:"tu",c:"joues",d:["joue","jouons","jouent"]},
+  {p:"elles",c:"jouent",d:["jouez","jouons","joue"]}
+]);
+addQ("jouer","Indicatif","Imparfait",[
+  {p:"je",c:"jouais",d:["jouait","jouions","joue"]},
+  {p:"il",c:"jouait",d:["jouais","jouions","jouera"]}
+]);
+addQ("jouer","Indicatif","Passé composé",[
+  {p:"j'",c:"ai joué",d:["a joué","avons joué","jouais"]},
+  {p:"elles",c:"ont joué",d:["avez joué","avons joué","a joué"]}
+]);
+addQ("jouer","Indicatif","Futur simple",[
+  {p:"je",c:"jouerai",d:["joueras","jouera","jouerons"]},
+  {p:"ils",c:"joueront",d:["jouerez","jouerons","jouera"]}
+]);
+addQ("jouer","Subjonctif","Présent",[
+  {p:"que je",c:"joue",d:["joues","jouions","jouent"]},
+  {p:"que nous",c:"jouions",d:["jouiez","jouent","jouons"]}
+]);
+addQ("jouer","Conditionnel","Présent",[
+  {p:"je",c:"jouerais",d:["jouerait","jouerions","jouerez"]}
+]);
+addQ("jouer","Participe","Passé",[{p:"(avoir)",c:"joué",d:["jouant","jouer","jouais"]}]);
+
+// ── ARRIVER ──
+addQ("arriver","Indicatif","Présent",[
+  {p:"j'",c:"arrive",d:["arrives","arrivons","arrivent"]},
+  {p:"tu",c:"arrives",d:["arrive","arrivons","arrivent"]},
+  {p:"nous",c:"arrivons",d:["arrivez","arrivent","arrive"]}
+]);
+addQ("arriver","Indicatif","Imparfait",[
+  {p:"j'",c:"arrivais",d:["arrivait","arrivions","arrive"]},
+  {p:"il",c:"arrivait",d:["arrivais","arrivions","arrivera"]}
+]);
+addQ("arriver","Indicatif","Passé composé",[
+  {p:"je",c:"suis arrivé",d:["suis arrivée","es arrivé","est arrivé"]},
+  {p:"il",c:"est arrivé",d:["suis arrivé","es arrivé","sont arrivés"]},
+  {p:"nous",c:"sommes arrivés",d:["êtes arrivés","sont arrivés","avons arrivé"]}
+]);
+addQ("arriver","Indicatif","Futur simple",[
+  {p:"j'",c:"arriverai",d:["arriveras","arrivera","arriverons"]},
+  {p:"ils",c:"arriveront",d:["arriverez","arriverons","arrivera"]}
+]);
+addQ("arriver","Subjonctif","Présent",[
+  {p:"que j'",c:"arrive",d:["arrives","arrivions","arrivent"]}
+]);
+addQ("arriver","Conditionnel","Présent",[
+  {p:"j'",c:"arriverais",d:["arriverait","arriverions","arriverez"]}
+]);
+addQ("arriver","Participe","Passé",[{p:"(être)",c:"arrivé",d:["arrivant","arriver","arrivais"]}]);
+addQ("arriver","Participe","Présent",[{p:"en",c:"arrivant",d:["arrivé","arrivons","être arrivé"]}]);
+
+// ── TRAVAILLER ──
+addQ("travailler","Indicatif","Présent",[
+  {p:"je",c:"travaille",d:["travailles","travaillons","travaillent"]},
+  {p:"nous",c:"travaillons",d:["travaillez","travaillent","travaille"]},
+  {p:"ils",c:"travaillent",d:["travaillez","travaillons","travaille"]}
+]);
+addQ("travailler","Indicatif","Imparfait",[
+  {p:"je",c:"travaillais",d:["travaillait","travaillions","travaille"]},
+  {p:"nous",c:"travaillions",d:["travailliez","travaillaient","travaillais"]}
+]);
+addQ("travailler","Indicatif","Passé composé",[
+  {p:"j'",c:"ai travaillé",d:["a travaillé","avons travaillé","travaillais"]},
+  {p:"nous",c:"avons travaillé",d:["avez travaillé","ont travaillé","a travaillé"]}
+]);
+addQ("travailler","Indicatif","Futur simple",[
+  {p:"je",c:"travaillerai",d:["travailleras","travaillera","travaillerons"]},
+  {p:"ils",c:"travailleront",d:["travaillerez","travaillerons","travaillera"]}
+]);
+addQ("travailler","Subjonctif","Présent",[
+  {p:"que je",c:"travaille",d:["travailles","travaillions","travaillent"]}
+]);
+addQ("travailler","Conditionnel","Présent",[
+  {p:"je",c:"travaillerais",d:["travaillerait","travaillerions","travaillerez"]}
+]);
+addQ("travailler","Participe","Passé",[{p:"(avoir)",c:"travaillé",d:["travaillant","travailler","travaillais"]}]);
+
+// ── ACCEPTER ──
+addQ("accepter","Indicatif","Présent",[
+  {p:"j'",c:"accepte",d:["acceptes","acceptons","acceptent"]},
+  {p:"nous",c:"acceptons",d:["acceptez","acceptent","accepte"]},
+  {p:"ils",c:"acceptent",d:["acceptez","acceptons","accepte"]}
+]);
+addQ("accepter","Indicatif","Passé composé",[
+  {p:"j'",c:"ai accepté",d:["a accepté","avons accepté","acceptais"]},
+  {p:"nous",c:"avons accepté",d:["avez accepté","ont accepté","a accepté"]}
+]);
+addQ("accepter","Indicatif","Futur simple",[
+  {p:"j'",c:"accepterai",d:["accepteras","acceptera","accepterons"]},
+  {p:"ils",c:"accepteront",d:["accepterez","accepterons","acceptera"]}
+]);
+addQ("accepter","Subjonctif","Présent",[
+  {p:"que j'",c:"accepte",d:["acceptes","acceptions","acceptent"]}
+]);
+addQ("accepter","Conditionnel","Présent",[
+  {p:"j'",c:"accepterais",d:["accepterait","accepterions","accepterez"]}
+]);
+
+// ── TOURNER ──
+addQ("tourner","Indicatif","Présent",[
+  {p:"je",c:"tourne",d:["tournes","tournons","tournent"]},
+  {p:"nous",c:"tournons",d:["tournez","tournent","tourne"]},
+  {p:"ils",c:"tournent",d:["tournez","tournons","tourne"]}
+]);
+addQ("tourner","Indicatif","Passé composé",[
+  {p:"j'",c:"ai tourné",d:["a tourné","avons tourné","tournais"]},
+  {p:"nous",c:"avons tourné",d:["avez tourné","ont tourné","a tourné"]}
+]);
+addQ("tourner","Indicatif","Futur simple",[
+  {p:"je",c:"tournerai",d:["tourneras","tournera","tournerons"]},
+  {p:"ils",c:"tourneront",d:["tournerez","tournerons","tournera"]}
+]);
+addQ("tourner","Subjonctif","Présent",[
+  {p:"que je",c:"tourne",d:["tournes","tournions","tournent"]}
+]);
+addQ("tourner","Conditionnel","Présent",[
+  {p:"je",c:"tournerais",d:["tournerait","tournerions","tournerez"]}
+]);
+addQ("tourner","Participe","Passé",[{p:"(avoir)",c:"tourné",d:["tournant","tourner","tournais"]}]);
+
+// ── FINIR ──
+addQ("finir","Indicatif","Présent",[
+  {p:"je",c:"finis",d:["finit","finissons","finissez"]},
+  {p:"tu",c:"finis",d:["finit","finissons","finissent"]},
+  {p:"il",c:"finit",d:["finis","finissons","finissent"]},
+  {p:"nous",c:"finissons",d:["finissez","finissent","finit"]},
+  {p:"vous",c:"finissez",d:["finissons","finissent","finis"]},
+  {p:"ils",c:"finissent",d:["finissez","finissons","finit"]}
+]);
+addQ("finir","Indicatif","Imparfait",[
+  {p:"je",c:"finissais",d:["finissait","finissions","finis"]},
+  {p:"il",c:"finissait",d:["finissais","finissions","finira"]}
+]);
+addQ("finir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai fini",d:["a fini","avons fini","finissais"]},
+  {p:"ils",c:"ont fini",d:["avez fini","avons fini","a fini"]}
+]);
+addQ("finir","Indicatif","Passé simple",[
+  {p:"je",c:"finis",d:["finit","finîmes","finirent"]},
+  {p:"il",c:"finit",d:["finis","finîmes","finirent"]},
+  {p:"ils",c:"finirent",d:["finit","finîtes","finîmes"]}
+]);
+addQ("finir","Indicatif","Futur simple",[
+  {p:"je",c:"finirai",d:["finiras","finira","finirons"]},
+  {p:"ils",c:"finiront",d:["finirez","finirons","finira"]}
+]);
+addQ("finir","Indicatif","Plus-que-parfait",[
+  {p:"j'",c:"avais fini",d:["avait fini","avions fini","aurai fini"]},
+  {p:"il",c:"avait fini",d:["avais fini","avions fini","aura fini"]}
+]);
+addQ("finir","Subjonctif","Présent",[
+  {p:"que je",c:"finisse",d:["finisses","finissions","finissent"]},
+  {p:"que nous",c:"finissions",d:["finissiez","finissent","finissons"]}
+]);
+addQ("finir","Conditionnel","Présent",[
+  {p:"je",c:"finirais",d:["finirait","finirions","finirez"]},
+  {p:"il",c:"finirait",d:["finirais","finirions","finira"]}
+]);
+addQ("finir","Participe","Présent",[{p:"en",c:"finissant",d:["fini","finissons","avoir fini"]}]);
+addQ("finir","Participe","Passé",[{p:"(avoir)",c:"fini",d:["finissant","finir","finissais"]}]);
+
+// ── GRANDIR ──
+addQ("grandir","Indicatif","Présent",[
+  {p:"je",c:"grandis",d:["grandit","grandissons","grandissez"]},
+  {p:"elle",c:"grandit",d:["grandis","grandissons","grandissent"]},
+  {p:"ils",c:"grandissent",d:["grandissez","grandissons","grandit"]}
+]);
+addQ("grandir","Indicatif","Imparfait",[
+  {p:"je",c:"grandissais",d:["grandissait","grandissions","grandis"]},
+  {p:"il",c:"grandissait",d:["grandissais","grandissions","grandira"]}
+]);
+addQ("grandir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai grandi",d:["a grandi","avons grandi","grandissais"]},
+  {p:"elle",c:"a grandi",d:["ai grandi","as grandi","ont grandi"]}
+]);
+addQ("grandir","Indicatif","Futur simple",[
+  {p:"je",c:"grandirai",d:["grandiras","grandira","grandirons"]},
+  {p:"ils",c:"grandiront",d:["grandirez","grandirons","grandira"]}
+]);
+addQ("grandir","Subjonctif","Présent",[
+  {p:"que je",c:"grandisse",d:["grandisses","grandissions","grandissent"]}
+]);
+addQ("grandir","Conditionnel","Présent",[
+  {p:"je",c:"grandirais",d:["grandirait","grandirions","grandirez"]}
+]);
+addQ("grandir","Participe","Passé",[{p:"(avoir)",c:"grandi",d:["grandissant","grandir","grandissais"]}]);
+
+// ── MAIGRIR ──
+addQ("maigrir","Indicatif","Présent",[
+  {p:"je",c:"maigris",d:["maigrit","maigrissons","maigrissez"]},
+  {p:"il",c:"maigrit",d:["maigris","maigrissons","maigrissent"]},
+  {p:"ils",c:"maigrissent",d:["maigrissez","maigrissons","maigrit"]}
+]);
+addQ("maigrir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai maigri",d:["a maigri","avons maigri","maigrissais"]},
+  {p:"ils",c:"ont maigri",d:["avez maigri","avons maigri","a maigri"]}
+]);
+addQ("maigrir","Indicatif","Futur simple",[
+  {p:"je",c:"maigrirai",d:["maigriras","maigrira","maigrirons"]},
+  {p:"ils",c:"maigriront",d:["maigrirez","maigrirons","maigrira"]}
+]);
+addQ("maigrir","Subjonctif","Présent",[
+  {p:"que je",c:"maigrisse",d:["maigrisses","maigrissions","maigrissent"]}
+]);
+addQ("maigrir","Conditionnel","Présent",[
+  {p:"je",c:"maigrirais",d:["maigrirait","maigririsons","maigrirez"]}
+]);
+
+// ── DÉFINIR ──
+addQ("définir","Indicatif","Présent",[
+  {p:"je",c:"définis",d:["définit","définissons","définissez"]},
+  {p:"il",c:"définit",d:["définis","définissons","définissent"]},
+  {p:"nous",c:"définissons",d:["définissez","définissent","définit"]}
+]);
+addQ("définir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai défini",d:["a défini","avons défini","définissais"]},
+  {p:"nous",c:"avons défini",d:["avez défini","ont défini","a défini"]}
+]);
+addQ("définir","Indicatif","Futur simple",[
+  {p:"je",c:"définirai",d:["définiras","définira","définirons"]},
+  {p:"ils",c:"définiront",d:["définirez","définirons","définira"]}
+]);
+addQ("définir","Subjonctif","Présent",[
+  {p:"que je",c:"définisse",d:["définisses","définissions","définissent"]}
+]);
+addQ("définir","Conditionnel","Présent",[
+  {p:"je",c:"définirais",d:["définirait","définirions","définirez"]}
+]);
+
+// ── CHOISIR ──
+addQ("choisir","Indicatif","Présent",[
+  {p:"je",c:"choisis",d:["choisit","choisissons","choisissez"]},
+  {p:"il",c:"choisit",d:["choisis","choisissons","choisissent"]},
+  {p:"ils",c:"choisissent",d:["choisissez","choisissons","choisit"]}
+]);
+addQ("choisir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai choisi",d:["a choisi","avons choisi","choisissais"]},
+  {p:"nous",c:"avons choisi",d:["avez choisi","ont choisi","a choisi"]}
+]);
+addQ("choisir","Indicatif","Futur simple",[
+  {p:"je",c:"choisirai",d:["choisiras","choisira","choisirons"]},
+  {p:"ils",c:"choisiront",d:["choisirez","choisirons","choisira"]}
+]);
+addQ("choisir","Subjonctif","Présent",[
+  {p:"que je",c:"choisisse",d:["choisisses","choisissions","choisissent"]}
+]);
+addQ("choisir","Conditionnel","Présent",[
+  {p:"je",c:"choisirais",d:["choisirait","choisirions","choisirez"]}
+]);
+addQ("choisir","Participe","Passé",[{p:"(avoir)",c:"choisi",d:["choisissant","choisir","choisissais"]}]);
+
+// ── RÉUSSIR ──
+addQ("réussir","Indicatif","Présent",[
+  {p:"je",c:"réussis",d:["réussit","réussissons","réussissez"]},
+  {p:"il",c:"réussit",d:["réussis","réussissons","réussissent"]},
+  {p:"nous",c:"réussissons",d:["réussissez","réussissent","réussit"]}
+]);
+addQ("réussir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai réussi",d:["a réussi","avons réussi","réussissais"]},
+  {p:"nous",c:"avons réussi",d:["avez réussi","ont réussi","a réussi"]}
+]);
+addQ("réussir","Indicatif","Futur simple",[
+  {p:"je",c:"réussirai",d:["réussiras","réussira","réussirons"]},
+  {p:"ils",c:"réussiront",d:["réussirez","réussirons","réussira"]}
+]);
+addQ("réussir","Subjonctif","Présent",[
+  {p:"que je",c:"réussisse",d:["réussisses","réussissions","réussissent"]}
+]);
+addQ("réussir","Conditionnel","Présent",[
+  {p:"je",c:"réussirais",d:["réussirait","réussirions","réussirez"]}
+]);
+
+// ── NOURRIR ──
+addQ("nourrir","Indicatif","Présent",[
+  {p:"je",c:"nourris",d:["nourrit","nourrissons","nourrissez"]},
+  {p:"il",c:"nourrit",d:["nourris","nourrissons","nourrissent"]},
+  {p:"ils",c:"nourrissent",d:["nourrissez","nourrissons","nourrit"]}
+]);
+addQ("nourrir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai nourri",d:["a nourri","avons nourri","nourrissais"]},
+  {p:"nous",c:"avons nourri",d:["avez nourri","ont nourri","a nourri"]}
+]);
+addQ("nourrir","Indicatif","Futur simple",[
+  {p:"je",c:"nourrirai",d:["nourriras","nourrira","nourrirons"]},
+  {p:"ils",c:"nourriront",d:["nourrirez","nourrirons","nourrira"]}
+]);
+addQ("nourrir","Subjonctif","Présent",[
+  {p:"que je",c:"nourrisse",d:["nourrisses","nourrissions","nourrissent"]}
+]);
+addQ("nourrir","Conditionnel","Présent",[
+  {p:"je",c:"nourrirais",d:["nourrirait","nourririons","nourrirez"]}
+]);
+
+// ── RÉFLÉCHIR ──
+addQ("réfléchir","Indicatif","Présent",[
+  {p:"je",c:"réfléchis",d:["réfléchit","réfléchissons","réfléchissez"]},
+  {p:"il",c:"réfléchit",d:["réfléchis","réfléchissons","réfléchissent"]},
+  {p:"nous",c:"réfléchissons",d:["réfléchissez","réfléchissent","réfléchit"]}
+]);
+addQ("réfléchir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai réfléchi",d:["a réfléchi","avons réfléchi","réfléchissais"]},
+  {p:"nous",c:"avons réfléchi",d:["avez réfléchi","ont réfléchi","a réfléchi"]}
+]);
+addQ("réfléchir","Indicatif","Futur simple",[
+  {p:"je",c:"réfléchirai",d:["réfléchiras","réfléchira","réfléchirons"]},
+  {p:"ils",c:"réfléchiront",d:["réfléchirez","réfléchirons","réfléchira"]}
+]);
+addQ("réfléchir","Subjonctif","Présent",[
+  {p:"que je",c:"réfléchisse",d:["réfléchisses","réfléchissions","réfléchissent"]}
+]);
+addQ("réfléchir","Conditionnel","Présent",[
+  {p:"je",c:"réfléchirais",d:["réfléchirait","réfléchirions","réfléchirez"]}
+]);
+
+// ── ÊTRE ──
+addQ("être","Indicatif","Présent",[
+  {p:"je",c:"suis",d:["es","est","sommes"]},
+  {p:"tu",c:"es",d:["suis","est","êtes"]},
+  {p:"il",c:"est",d:["es","suis","sont"]},
+  {p:"nous",c:"sommes",d:["êtes","sont","es"]},
+  {p:"vous",c:"êtes",d:["sommes","sont","est"]},
+  {p:"elles",c:"sont",d:["êtes","sommes","est"]}
+]);
+addQ("être","Indicatif","Imparfait",[
+  {p:"j'",c:"étais",d:["était","étions","suis"]},
+  {p:"il",c:"était",d:["étais","étions","sera"]},
+  {p:"ils",c:"étaient",d:["étiez","étions","était"]}
+]);
+addQ("être","Indicatif","Passé composé",[
+  {p:"j'",c:"ai été",d:["a été","avons été","étais"]},
+  {p:"nous",c:"avons été",d:["avez été","ont été","a été"]}
+]);
+addQ("être","Indicatif","Passé simple",[
+  {p:"je",c:"fus",d:["fut","fûmes","furent"]},
+  {p:"il",c:"fut",d:["fus","fûmes","furent"]},
+  {p:"ils",c:"furent",d:["fut","fûtes","fûmes"]}
+]);
+addQ("être","Indicatif","Futur simple",[
+  {p:"je",c:"serai",d:["seras","sera","serons"]},
+  {p:"il",c:"sera",d:["serai","seras","seront"]},
+  {p:"ils",c:"seront",d:["serez","serons","sera"]}
+]);
+addQ("être","Indicatif","Plus-que-parfait",[
+  {p:"j'",c:"avais été",d:["avait été","avions été","aurai été"]},
+  {p:"il",c:"avait été",d:["avais été","avions été","aura été"]}
+]);
+addQ("être","Subjonctif","Présent",[
+  {p:"que je",c:"sois",d:["soit","soyons","soient"]},
+  {p:"qu'il",c:"soit",d:["sois","soyons","soient"]},
+  {p:"que nous",c:"soyons",d:["soyez","soient","sommes"]}
+]);
+addQ("être","Conditionnel","Présent",[
+  {p:"je",c:"serais",d:["serait","serions","seriez"]},
+  {p:"il",c:"serait",d:["serais","serions","sera"]}
+]);
+addQ("être","Participe","Passé",[{p:"—",c:"été",d:["étant","être","est"]}]);
+addQ("être","Participe","Présent",[{p:"en",c:"étant",d:["été","être","ayant été"]}]);
+addQ("être","Infinitif","Présent",[{p:"—",c:"être",d:["étant","été","est"]}]);
+
+// ── AVOIR ──
+addQ("avoir","Indicatif","Présent",[
+  {p:"j'",c:"ai",d:["as","a","avons"]},
+  {p:"tu",c:"as",d:["ai","a","avez"]},
+  {p:"il",c:"a",d:["ai","as","ont"]},
+  {p:"nous",c:"avons",d:["avez","ont","as"]},
+  {p:"vous",c:"avez",d:["avons","ont","as"]},
+  {p:"elles",c:"ont",d:["avez","avons","a"]}
+]);
+addQ("avoir","Indicatif","Imparfait",[
+  {p:"j'",c:"avais",d:["avait","avions","ai"]},
+  {p:"il",c:"avait",d:["avais","avions","aura"]},
+  {p:"ils",c:"avaient",d:["aviez","avions","avait"]}
+]);
+addQ("avoir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai eu",d:["a eu","avons eu","avais"]},
+  {p:"nous",c:"avons eu",d:["avez eu","ont eu","a eu"]}
+]);
+addQ("avoir","Indicatif","Passé simple",[
+  {p:"j'",c:"eus",d:["eut","eûmes","eurent"]},
+  {p:"il",c:"eut",d:["eus","eûmes","eurent"]},
+  {p:"ils",c:"eurent",d:["eut","eûtes","eûmes"]}
+]);
+addQ("avoir","Indicatif","Futur simple",[
+  {p:"j'",c:"aurai",d:["auras","aura","aurons"]},
+  {p:"il",c:"aura",d:["aurai","auras","auront"]},
+  {p:"ils",c:"auront",d:["aurez","aurons","aura"]}
+]);
+addQ("avoir","Indicatif","Plus-que-parfait",[
+  {p:"j'",c:"avais eu",d:["avait eu","avions eu","aurai eu"]},
+  {p:"il",c:"avait eu",d:["avais eu","avions eu","aura eu"]}
+]);
+addQ("avoir","Subjonctif","Présent",[
+  {p:"que j'",c:"aie",d:["ait","ayons","aient"]},
+  {p:"qu'il",c:"ait",d:["aie","ayons","aient"]},
+  {p:"que nous",c:"ayons",d:["ayez","aient","avons"]}
+]);
+addQ("avoir","Conditionnel","Présent",[
+  {p:"j'",c:"aurais",d:["aurait","aurions","auriez"]},
+  {p:"il",c:"aurait",d:["aurais","aurions","aura"]}
+]);
+addQ("avoir","Participe","Passé",[{p:"—",c:"eu",d:["ayant","avoir","a"]}]);
+addQ("avoir","Participe","Présent",[{p:"en",c:"ayant",d:["eu","avoir","ayant eu"]}]);
+addQ("avoir","Infinitif","Présent",[{p:"—",c:"avoir",d:["ayant","eu","a"]}]);
+
+// ── ALLER ──
+addQ("aller","Indicatif","Présent",[
+  {p:"je",c:"vais",d:["va","allons","allez"]},
+  {p:"tu",c:"vas",d:["vais","va","allez"]},
+  {p:"il",c:"va",d:["vais","vas","vont"]},
+  {p:"nous",c:"allons",d:["allez","vont","vas"]},
+  {p:"vous",c:"allez",d:["allons","vont","va"]},
+  {p:"ils",c:"vont",d:["allez","allons","va"]}
+]);
+addQ("aller","Indicatif","Imparfait",[
+  {p:"j'",c:"allais",d:["allait","allions","vais"]},
+  {p:"il",c:"allait",d:["allais","allions","ira"]},
+  {p:"ils",c:"allaient",d:["alliez","allions","allait"]}
+]);
+addQ("aller","Indicatif","Passé composé",[
+  {p:"je",c:"suis allé",d:["suis allée","es allé","est allé"]},
+  {p:"nous",c:"sommes allés",d:["êtes allés","sont allés","avons allé"]},
+  {p:"ils",c:"sont allés",d:["êtes allés","sommes allés","ont allé"]}
+]);
+addQ("aller","Indicatif","Futur simple",[
+  {p:"j'",c:"irai",d:["iras","ira","irons"]},
+  {p:"il",c:"ira",d:["irai","iras","iront"]},
+  {p:"ils",c:"iront",d:["irez","irons","ira"]}
+]);
+addQ("aller","Subjonctif","Présent",[
+  {p:"que j'",c:"aille",d:["ailles","allions","aillent"]},
+  {p:"que nous",c:"allions",d:["alliez","aillent","allons"]}
+]);
+addQ("aller","Conditionnel","Présent",[
+  {p:"j'",c:"irais",d:["irait","irions","iriez"]},
+  {p:"il",c:"irait",d:["irais","irions","ira"]}
+]);
+addQ("aller","Participe","Passé",[{p:"(être)",c:"allé",d:["allant","aller","est allé"]}]);
+addQ("aller","Participe","Présent",[{p:"en",c:"allant",d:["allé","aller","être allé"]}]);
+
+// ── FAIRE ──
+addQ("faire","Indicatif","Présent",[
+  {p:"je",c:"fais",d:["fait","faisons","faites"]},
+  {p:"tu",c:"fais",d:["fait","faisons","font"]},
+  {p:"il",c:"fait",d:["fais","faisons","font"]},
+  {p:"nous",c:"faisons",d:["faites","font","fait"]},
+  {p:"vous",c:"faites",d:["faisons","font","fais"]},
+  {p:"ils",c:"font",d:["faites","faisons","fait"]}
+]);
+addQ("faire","Indicatif","Imparfait",[
+  {p:"je",c:"faisais",d:["faisait","faisions","fais"]},
+  {p:"il",c:"faisait",d:["faisais","faisions","fera"]},
+  {p:"nous",c:"faisions",d:["faisiez","faisaient","faisais"]}
+]);
+addQ("faire","Indicatif","Passé composé",[
+  {p:"j'",c:"ai fait",d:["a fait","avons fait","faisais"]},
+  {p:"nous",c:"avons fait",d:["avez fait","ont fait","a fait"]}
+]);
+addQ("faire","Indicatif","Passé simple",[
+  {p:"je",c:"fis",d:["fit","fîmes","firent"]},
+  {p:"il",c:"fit",d:["fis","fîmes","firent"]},
+  {p:"ils",c:"firent",d:["fit","fîtes","fîmes"]}
+]);
+addQ("faire","Indicatif","Futur simple",[
+  {p:"je",c:"ferai",d:["feras","fera","ferons"]},
+  {p:"tu",c:"feras",d:["ferai","fera","ferez"]},
+  {p:"il",c:"fera",d:["ferai","feras","feront"]},
+  {p:"ils",c:"feront",d:["ferez","ferons","fera"]}
+]);
+addQ("faire","Subjonctif","Présent",[
+  {p:"que je",c:"fasse",d:["fasses","fassions","fassent"]},
+  {p:"que nous",c:"fassions",d:["fassiez","fassent","faisons"]}
+]);
+addQ("faire","Conditionnel","Présent",[
+  {p:"je",c:"ferais",d:["ferait","ferions","feriez"]},
+  {p:"il",c:"ferait",d:["ferais","ferions","fera"]}
+]);
+addQ("faire","Participe","Passé",[{p:"(avoir)",c:"fait",d:["faisant","faire","faisais"]}]);
+addQ("faire","Participe","Présent",[{p:"en",c:"faisant",d:["fait","faire","avoir fait"]}]);
+
+// ── POUVOIR ──
+addQ("pouvoir","Indicatif","Présent",[
+  {p:"je",c:"peux",d:["peut","pouvons","peuvent"]},
+  {p:"tu",c:"peux",d:["peut","pouvons","pouvez"]},
+  {p:"il",c:"peut",d:["peux","pouvons","peuvent"]},
+  {p:"nous",c:"pouvons",d:["pouvez","peuvent","peut"]},
+  {p:"ils",c:"peuvent",d:["pouvez","pouvons","peut"]}
+]);
+addQ("pouvoir","Indicatif","Imparfait",[
+  {p:"je",c:"pouvais",d:["pouvait","pouvions","peux"]},
+  {p:"il",c:"pouvait",d:["pouvais","pouvions","pourra"]}
+]);
+addQ("pouvoir","Indicatif","Passé composé",[
+  {p:"j'",c:"ai pu",d:["a pu","avons pu","pouvais"]},
+  {p:"nous",c:"avons pu",d:["avez pu","ont pu","a pu"]}
+]);
+addQ("pouvoir","Indicatif","Futur simple",[
+  {p:"je",c:"pourrai",d:["pourras","pourra","pourrons"]},
+  {p:"ils",c:"pourront",d:["pourrez","pourrons","pourra"]}
+]);
+addQ("pouvoir","Subjonctif","Présent",[
+  {p:"que je",c:"puisse",d:["puisses","puissions","puissent"]},
+  {p:"que nous",c:"puissions",d:["puissiez","puissent","pouvons"]}
+]);
+addQ("pouvoir","Conditionnel","Présent",[
+  {p:"je",c:"pourrais",d:["pourrait","pourrions","pourriez"]},
+  {p:"il",c:"pourrait",d:["pourrais","pourrions","pourra"]}
+]);
+addQ("pouvoir","Participe","Passé",[{p:"(avoir)",c:"pu",d:["pouvant","pouvoir","pouvais"]}]);
+
+// ── VENIR ──
+addQ("venir","Indicatif","Présent",[
+  {p:"je",c:"viens",d:["vient","venons","venez"]},
+  {p:"tu",c:"viens",d:["vient","venons","viennent"]},
+  {p:"il",c:"vient",d:["viens","venons","viennent"]},
+  {p:"nous",c:"venons",d:["venez","viennent","vient"]},
+  {p:"ils",c:"viennent",d:["venez","venons","vient"]}
+]);
+addQ("venir","Indicatif","Imparfait",[
+  {p:"je",c:"venais",d:["venait","venions","viens"]},
+  {p:"il",c:"venait",d:["venais","venions","viendra"]}
+]);
+addQ("venir","Indicatif","Passé composé",[
+  {p:"je",c:"suis venu",d:["suis venue","es venu","est venu"]},
+  {p:"nous",c:"sommes venus",d:["êtes venus","sont venus","avons venu"]}
+]);
+addQ("venir","Indicatif","Futur simple",[
+  {p:"je",c:"viendrai",d:["viendras","viendra","viendrons"]},
+  {p:"ils",c:"viendront",d:["viendrez","viendrons","viendra"]}
+]);
+addQ("venir","Subjonctif","Présent",[
+  {p:"que je",c:"vienne",d:["viennes","venions","viennent"]},
+  {p:"que nous",c:"venions",d:["veniez","viennent","venons"]}
+]);
+addQ("venir","Conditionnel","Présent",[
+  {p:"je",c:"viendrais",d:["viendrait","viendrions","viendriez"]},
+  {p:"il",c:"viendrait",d:["viendrais","viendrions","viendra"]}
+]);
+addQ("venir","Participe","Passé",[{p:"(être)",c:"venu",d:["venant","venir","est venu"]}]);
+addQ("venir","Participe","Présent",[{p:"en",c:"venant",d:["venu","venir","être venu"]}]);
+
+// ── PRENDRE ──
+addQ("prendre","Indicatif","Présent",[
+  {p:"je",c:"prends",d:["prend","prenons","prenez"]},
+  {p:"tu",c:"prends",d:["prend","prenons","prennent"]},
+  {p:"il",c:"prend",d:["prends","prenons","prennent"]},
+  {p:"nous",c:"prenons",d:["prenez","prennent","prend"]},
+  {p:"ils",c:"prennent",d:["prenez","prenons","prend"]}
+]);
+addQ("prendre","Indicatif","Imparfait",[
+  {p:"je",c:"prenais",d:["prenait","prenions","prends"]},
+  {p:"il",c:"prenait",d:["prenais","prenions","prendra"]}
+]);
+addQ("prendre","Indicatif","Passé composé",[
+  {p:"j'",c:"ai pris",d:["a pris","avons pris","prenais"]},
+  {p:"nous",c:"avons pris",d:["avez pris","ont pris","a pris"]}
+]);
+addQ("prendre","Indicatif","Futur simple",[
+  {p:"je",c:"prendrai",d:["prendras","prendra","prendrons"]},
+  {p:"ils",c:"prendront",d:["prendrez","prendrons","prendra"]}
+]);
+addQ("prendre","Subjonctif","Présent",[
+  {p:"que je",c:"prenne",d:["prennes","prenions","prennent"]},
+  {p:"que nous",c:"prenions",d:["preniez","prennent","prenons"]}
+]);
+addQ("prendre","Conditionnel","Présent",[
+  {p:"je",c:"prendrais",d:["prendrait","prendrions","prendriez"]},
+  {p:"il",c:"prendrait",d:["prendrais","prendrions","prendra"]}
+]);
+addQ("prendre","Participe","Passé",[{p:"(avoir)",c:"pris",d:["prenant","prendre","prenais"]}]);
+addQ("prendre","Participe","Présent",[{p:"en",c:"prenant",d:["pris","prendre","avoir pris"]}]);
+
+// ── PARTIR ──
+addQ("partir","Indicatif","Présent",[
+  {p:"je",c:"pars",d:["part","partons","partez"]},
+  {p:"tu",c:"pars",d:["part","partons","partent"]},
+  {p:"il",c:"part",d:["pars","partons","partent"]},
+  {p:"nous",c:"partons",d:["partez","partent","part"]},
+  {p:"ils",c:"partent",d:["partez","partons","part"]}
+]);
+addQ("partir","Indicatif","Imparfait",[
+  {p:"je",c:"partais",d:["partait","partions","pars"]},
+  {p:"il",c:"partait",d:["partais","partions","partira"]}
+]);
+addQ("partir","Indicatif","Passé composé",[
+  {p:"je",c:"suis parti",d:["suis partie","es parti","est parti"]},
+  {p:"nous",c:"sommes partis",d:["êtes partis","sont partis","avons parti"]}
+]);
+addQ("partir","Indicatif","Futur simple",[
+  {p:"je",c:"partirai",d:["partiras","partira","partirons"]},
+  {p:"ils",c:"partiront",d:["partirez","partirons","partira"]}
+]);
+addQ("partir","Subjonctif","Présent",[
+  {p:"que je",c:"parte",d:["partes","partions","partent"]},
+  {p:"que nous",c:"partions",d:["partiez","partent","partons"]}
+]);
+addQ("partir","Conditionnel","Présent",[
+  {p:"je",c:"partirais",d:["partirait","partirions","partiriez"]},
+  {p:"il",c:"partirait",d:["partirais","partirions","partira"]}
+]);
+addQ("partir","Participe","Passé",[{p:"(être)",c:"parti",d:["partant","partir","est parti"]}]);
+addQ("partir","Participe","Présent",[{p:"en",c:"partant",d:["parti","partir","être parti"]}]);
+
+// ─── GROUPES INFO ─────────────────────────────────────────────────────────────
+const VERBE_GROUPE = {};
+Object.entries(GROUPES).forEach(([g,vs])=>vs.forEach(v=>{VERBE_GROUPE[v]=g;}));
+
+// ─── POKÉMONS VOLANTS ─────────────────────────────────────────────────────────
+const POKES_FLY=[
+  `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="34" rx="16" ry="14" fill="#F7C948"/><ellipse cx="22" cy="26" rx="8" ry="9" fill="#F7C948"/><ellipse cx="38" cy="26" rx="8" ry="9" fill="#F7C948"/><ellipse cx="22" cy="22" rx="5" ry="6" fill="#C8860A"/><ellipse cx="38" cy="22" rx="5" ry="6" fill="#C8860A"/><circle cx="25" cy="28" r="3" fill="#222"/><circle cx="35" cy="28" r="3" fill="#222"/><circle cx="26" cy="27" r="1" fill="white"/><circle cx="36" cy="27" r="1" fill="white"/><ellipse cx="23" cy="36" rx="5" ry="3" fill="#E8474A"/><ellipse cx="37" cy="36" rx="5" ry="3" fill="#E8474A"/><path d="M27 32 Q30 35 33 32" stroke="#222" stroke-width="1.5" fill="none"/><path d="M18 14 L14 4 L22 10 Z" fill="#F7C948" stroke="#C8860A" stroke-width="1"/><path d="M42 14 L46 4 L38 10 Z" fill="#F7C948" stroke="#C8860A" stroke-width="1"/></svg>`,
+  `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="38" rx="18" ry="14" fill="#4A9FD4"/><ellipse cx="30" cy="28" rx="13" ry="12" fill="#9EDFF7"/><circle cx="23" cy="26" r="4" fill="#222"/><circle cx="37" cy="26" r="4" fill="#222"/><path d="M25 32 Q30 36 35 32" stroke="#222" stroke-width="1.5" fill="none"/></svg>`,
+  `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="35" rx="14" ry="15" fill="#F96A2A"/><ellipse cx="30" cy="28" rx="11" ry="12" fill="#FFA060"/><circle cx="24" cy="26" r="4" fill="#222"/><circle cx="36" cy="26" r="4" fill="#222"/><path d="M26 31 Q30 35 34 31" stroke="#222" stroke-width="1.5" fill="none"/><path d="M44 48 Q50 40 46 32 Q44 36 42 34 Q46 28 40 26 Q42 36 38 40 Q44 42 44 48Z" fill="#F96A2A"/><circle cx="44" cy="48" r="3" fill="#FFA500"/></svg>`,
+  `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="36" rx="14" ry="13" fill="#C8884A"/><ellipse cx="30" cy="28" rx="12" ry="12" fill="#D4A060"/><circle cx="24" cy="25" r="4" fill="#222"/><circle cx="36" cy="25" r="4" fill="#222"/><path d="M26 31 Q30 35 34 31" stroke="#222" stroke-width="1.5" fill="none"/></svg>`,
+  `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="36" rx="16" ry="14" fill="#F8D048"/><ellipse cx="30" cy="28" rx="13" ry="12" fill="#F8D860"/><circle cx="23" cy="26" r="4" fill="#222"/><circle cx="37" cy="26" r="4" fill="#222"/><path d="M22 18 Q18 12 22 8" stroke="#D0A000" stroke-width="2" fill="none"/><path d="M38 18 Q42 12 38 8" stroke="#D0A000" stroke-width="2" fill="none"/><path d="M30 16 Q26 10 30 6 Q34 10 30 16" stroke="#D0A000" stroke-width="2" fill="none"/></svg>`
+];
+
+const POKES_END={
+  smogogo:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="70" rx="40" ry="36" fill="#A890C8"/><ellipse cx="60" cy="58" rx="32" ry="28" fill="#C0A8E0"/><ellipse cx="60" cy="50" rx="24" ry="20" fill="#D8C8F0"/><circle cx="48" cy="46" r="8" fill="#222"/><circle cx="72" cy="46" r="8" fill="#222"/><circle cx="50" cy="44" r="3" fill="white"/><circle cx="74" cy="44" r="3" fill="white"/><path d="M50 60 Q60 66 70 60" stroke="#222" stroke-width="2" fill="none"/><ellipse cx="60" cy="28" rx="8" ry="7" fill="#C8A8E8"/></svg>`,
+  magicarpe:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="64" rx="36" ry="32" fill="#F04828"/><ellipse cx="60" cy="56" rx="26" ry="20" fill="#F86848"/><circle cx="44" cy="52" r="8" fill="white"/><circle cx="44" cy="52" r="5" fill="#222"/><path d="M48 68 Q60 76 72 68" stroke="#222" stroke-width="2.5" fill="none"/></svg>`,
+  miamiasme:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="68" rx="38" ry="34" fill="#88C858"/><ellipse cx="60" cy="56" rx="30" ry="26" fill="#A8D878"/><circle cx="46" cy="48" r="8" fill="#222"/><circle cx="74" cy="48" r="8" fill="#222"/><path d="M50 62 Q60 68 70 62" stroke="#222" stroke-width="2" fill="none"/></svg>`,
+  sorbouboul:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="64" rx="38" ry="36" fill="#A0D8F8"/><ellipse cx="60" cy="52" rx="30" ry="26" fill="#C0E8FF"/><circle cx="46" cy="46" r="8" fill="#222"/><circle cx="74" cy="46" r="8" fill="#222"/><path d="M50 60 Q60 66 70 60" stroke="#222" stroke-width="2" fill="none"/></svg>`,
+  nosferapti:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="68" rx="28" ry="28" fill="#7B5EA7"/><circle cx="46" cy="56" r="10" fill="#A080D0"/><circle cx="74" cy="56" r="10" fill="#A080D0"/><circle cx="46" cy="56" r="3" fill="#222"/><circle cx="74" cy="56" r="3" fill="#222"/><path d="M20 24 Q32 16 40 40 Q28 40 20 24Z" fill="#7B5EA7"/><path d="M100 24 Q88 16 80 40 Q92 40 100 24Z" fill="#7B5EA7"/></svg>`,
+  carapuce:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="76" rx="36" ry="28" fill="#4A9FD4"/><ellipse cx="60" cy="56" rx="26" ry="24" fill="#9EDFF7"/><circle cx="46" cy="52" r="8" fill="#222"/><circle cx="74" cy="52" r="8" fill="#222"/><path d="M50 64 Q60 70 70 64" stroke="#222" stroke-width="2" fill="none"/></svg>`,
+  psykokwak:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="72" rx="32" ry="28" fill="#F8D048"/><ellipse cx="60" cy="56" rx="26" ry="24" fill="#F8D860"/><circle cx="46" cy="52" r="8" fill="#222"/><circle cx="74" cy="52" r="8" fill="#222"/><path d="M52 76 Q60 84 68 76" stroke="#222" stroke-width="2.5" fill="none"/><path d="M60 32 Q52 20 60 12 Q68 20 60 32" stroke="#D0A000" stroke-width="3" fill="none"/></svg>`,
+  evoli:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="72" rx="28" ry="26" fill="#C8884A"/><ellipse cx="60" cy="56" rx="24" ry="24" fill="#D4A060"/><circle cx="48" cy="50" r="8" fill="#222"/><circle cx="72" cy="50" r="8" fill="#222"/><path d="M52 62 Q60 68 68 62" stroke="#222" stroke-width="2" fill="none"/><ellipse cx="40" cy="32" rx="10" ry="16" fill="#C8884A" transform="rotate(-20 40 32)"/><ellipse cx="80" cy="32" rx="10" ry="16" fill="#C8884A" transform="rotate(20 80 32)"/></svg>`,
+  lucario:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="68" rx="30" ry="28" fill="#4488CC"/><ellipse cx="60" cy="56" rx="24" ry="22" fill="#6AAADE"/><ellipse cx="60" cy="56" rx="16" ry="12" fill="#F0D080"/><circle cx="46" cy="50" r="8" fill="#222"/><circle cx="74" cy="50" r="8" fill="#222"/><path d="M52 62 Q60 68 68 62" stroke="#222" stroke-width="2" fill="none"/></svg>`,
+  dracaufeu:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="68" rx="28" ry="26" fill="#F06030"/><ellipse cx="60" cy="54" rx="22" ry="22" fill="#F88050"/><circle cx="48" cy="50" r="8" fill="#222"/><circle cx="72" cy="50" r="8" fill="#222"/><path d="M52 62 Q60 68 68 62" stroke="#222" stroke-width="2" fill="none"/><path d="M38 40 Q28 28 32 16 Q36 10 38 24 Q44 16 40 30Z" fill="#F06030"/><circle cx="96" cy="58" r="6" fill="#FF8800"/></svg>`,
+  pikachu:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="68" rx="32" ry="28" fill="#F7C948"/><ellipse cx="44" cy="52" rx="16" ry="18" fill="#F7C948"/><ellipse cx="76" cy="52" rx="16" ry="18" fill="#F7C948"/><ellipse cx="44" cy="44" rx="10" ry="12" fill="#C8860A"/><ellipse cx="76" cy="44" rx="10" ry="12" fill="#C8860A"/><circle cx="50" cy="56" r="6" fill="#222"/><circle cx="70" cy="56" r="6" fill="#222"/><ellipse cx="46" cy="72" rx="10" ry="6" fill="#E8474A"/><ellipse cx="74" cy="72" rx="10" ry="6" fill="#E8474A"/><path d="M36 28 L28 8 L44 20 Z" fill="#F7C948" stroke="#C8860A" stroke-width="2"/><path d="M84 28 L92 8 L76 20 Z" fill="#F7C948" stroke="#C8860A" stroke-width="2"/></svg>`,
+  mew:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="46" rx="20" ry="18" fill="#FFB0D8"/><ellipse cx="40" cy="36" rx="16" ry="16" fill="#FFC8E8"/><circle cx="33" cy="32" r="5" fill="#222"/><circle cx="47" cy="32" r="5" fill="#222"/><path d="M36 40 Q40 44 44 40" stroke="#222" stroke-width="1.5" fill="none"/><ellipse cx="28" cy="22" rx="6" ry="10" fill="#FFB0D8" transform="rotate(-25 28 22)"/><ellipse cx="52" cy="22" rx="6" ry="10" fill="#FFB0D8" transform="rotate(25 52 22)"/><path d="M55 58 Q70 52 72 40 Q68 44 64 42 Q70 36 62 30" stroke="#FFB0D8" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`
+};
+
+const REWARDS=[
+  {poke:'smogogo',  title:"Oups !",                           sub:"Attaque pensée empoisonnée, révise pour tout réparer",                  stars:0,blink:false},
+  {poke:'magicarpe',title:"Poursuis tes efforts !",           sub:"Attention à la glissade ! Entraîne-toi !",                             stars:1,blink:false},
+  {poke:'miamiasme',title:"Je crois en toi !",                sub:"Pouah, une créature sac poubelle ! Sors-toi de là !",                 stars:1,blink:false},
+  {poke:'sorbouboul',title:"Cool comme de la glace !",        sub:"Attaque blizzard gelé",                                               stars:1,blink:false},
+  {poke:'nosferapti',title:"Tu prends de la hauteur !",       sub:"Fraye-toi un chemin pour sortir de la grotte",                       stars:2,blink:false},
+  {poke:'carapuce', title:"Bien joué ! À mi-chemin !",        sub:"Tu sors de ta carapace",                                             stars:2,blink:false},
+  {poke:'psykokwak',title:"SANS MIGRAINE ! Ça rentre !",      sub:"Pouvoirs mystérieux débloqués",                                      stars:2,blink:false},
+  {poke:'evoli',    title:"SUPER ! Tu évolues !",             sub:"Tu t'adaptes de mieux en mieux. Félicitation !",                    stars:3,blink:false},
+  {poke:'lucario',  title:"EXCELLENT ! Force et précision !", sub:"Belle progression ! Félicitation !",                                 stars:3,blink:false},
+  {poke:'dracaufeu',title:"INCROYABLE ! Tu es en feu !",      sub:"Petit lézard est devenu dragon. Félicitation !",                    stars:3,blink:false},
+  {poke:'pikachu',  title:"PARFAIT ! Tu es légendaire !",     sub:"Quelle énergie ! Quelle puissance ! Félicitation !",                stars:3,blink:true}
+];
+
+// ─── ÉTAT ─────────────────────────────────────────────────────────────────────
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let selVerbes=new Set(ALL_VERBES);
+let selTemps=new Set(["Indicatif|Présent"]);
+let timerOn=true,timerSecs=15;
+let queue,idx,score,serie,bestSerie,answered,timerInterval,timeLeft;
+const TOTAL=10;
+
+function buildPool(){
+  const p=[];
+  selVerbes.forEach(v=>{
+    selTemps.forEach(k=>{
+      if(DB[v]&&DB[v][k])DB[v][k].forEach(q=>p.push({...q,verbe:v,groupe:VERBE_GROUPE[v]||'',temps:k}));
+    });
+  });
+  return p;
+}
+
+function updateSetupState(){
+  const p=buildPool(),btn=document.getElementById('start-btn');
+  if(!selVerbes.size||!selTemps.size){btn.disabled=true;document.getElementById('warn-msg').textContent='Sélectionne au moins un verbe et un temps.';document.getElementById('count-info').textContent='';}
+  else if(p.length<4){btn.disabled=true;document.getElementById('warn-msg').textContent='Pas assez de questions pour cette sélection.';document.getElementById('count-info').textContent='';}
+  else{btn.disabled=false;document.getElementById('warn-msg').textContent='';document.getElementById('count-info').textContent=p.length+' questions disponibles — partie de '+Math.min(TOTAL,p.length)+' questions.';}
+}
+
+function buildSetup(){
+  // Verbes par groupe
+  Object.entries(GROUPES).forEach(([g,vs])=>{
+    const id={'1er groupe':'g1-chips','2ème groupe':'g2-chips','3ème groupe':'g3-chips'}[g];
+    const box=document.getElementById(id);box.innerHTML='';
+    vs.forEach(v=>{
+      const c=document.createElement('span');c.className='chip'+(selVerbes.has(v)?' active':'');
+      c.textContent=v;c.onclick=()=>{selVerbes.has(v)?selVerbes.delete(v):selVerbes.add(v);c.classList.toggle('active');updateSetupState();};
+      box.appendChild(c);
+    });
+  });
+  // Temps par mode
+  const cont=document.getElementById('temps-par-mode');cont.innerHTML='';
+  Object.entries(MODES_TEMPS).forEach(([mode,temps])=>{
+    const ml=document.createElement('div');ml.className='mode-label';ml.textContent=mode;cont.appendChild(ml);
+    const grid=document.createElement('div');grid.className='chip-grid temps-section';
+    temps.forEach(t=>{
+      const key=mode+'|'+t;
+      const c=document.createElement('span');c.className='chip'+(selTemps.has(key)?' active':'');
+      c.textContent=t;c.onclick=()=>{selTemps.has(key)?selTemps.delete(key):selTemps.add(key);c.classList.toggle('active');updateSetupState();};
+      grid.appendChild(c);
+    });
+    cont.appendChild(grid);
+  });
+  document.getElementById('timer-on').checked=timerOn;
+  document.getElementById('timer-secs').style.display=timerOn?'flex':'none';
+  document.querySelectorAll('.sec-chip').forEach(c=>{c.classList.toggle('active',parseInt(c.dataset.s)===timerSecs);});
+  updateSetupState();
+}
+
+function goSetup(){document.getElementById('game-screen').style.display='none';document.getElementById('end-screen').style.display='none';document.getElementById('setup-screen').style.display='';buildSetup();}
+
+function startGame(){
+  const p=buildPool();queue=shuffle(p).slice(0,Math.min(TOTAL,p.length));
+  idx=0;score=0;serie=0;bestSerie=0;
+  document.getElementById('setup-screen').style.display='none';document.getElementById('end-screen').style.display='none';document.getElementById('game-screen').style.display='';
+  nextQuestion();
+}
+
+function nextQuestion(){
+  if(idx>=queue.length){endGame();return;}
+  const q=queue[idx];answered=false;
+  document.getElementById('progress').textContent='Question '+(idx+1)+' / '+queue.length;
+  // badge : mode + temps
+  const [mode,temps]=q.temps.split('|');
+  document.getElementById('gbadge').textContent=q.groupe;
+  document.getElementById('tbadge').textContent=mode+' · '+temps;
+  document.getElementById('qtxt').textContent=q.verbe.toUpperCase();
+  document.getElementById('sujet').textContent=q.p.toUpperCase();
+  document.getElementById('feedback').textContent='';document.getElementById('feedback').className='feedback';
+  document.getElementById('nxtbtn').style.display='none';
+  document.getElementById('score').textContent=score;
+  document.getElementById('serie').textContent=serie+(serie>=3?' 🔥':'');
+  const tbar=document.getElementById('tbar');
+  if(timerOn){tbar.parentElement.style.display='';tbar.style.width='100%';tbar.style.background='#0a2e38';}
+  else tbar.parentElement.style.display='none';
+  const opts=shuffle([q.c,...q.d.slice(0,3)]);
+  const box=document.getElementById('choices');box.innerHTML='';
+  opts.forEach(opt=>{const b=document.createElement('button');b.className='cbtn';b.textContent=q.p+' '+opt;b.onclick=()=>handleAnswer(opt,q,b);box.appendChild(b);});
+  if(timerOn)startTimer();
+}
+
+function startTimer(){clearInterval(timerInterval);timeLeft=timerSecs;updateBar();timerInterval=setInterval(()=>{timeLeft-=0.1;updateBar();if(timeLeft<=0){clearInterval(timerInterval);if(!answered)timeOut();}},100);}
+function updateBar(){const pct=Math.max(0,timeLeft/timerSecs*100);const bar=document.getElementById('tbar');bar.style.width=pct+'%';bar.style.background=pct>50?'#0a2e38':pct>25?'#B8860B':'#8B1A1A';}
+
+function handleAnswer(opt,q,btn){
+  if(answered)return;answered=true;clearInterval(timerInterval);
+  const ok=opt===q.c;
+  document.querySelectorAll('.cbtn').forEach(b=>{b.disabled=true;const val=b.textContent.replace(q.p+' ','');if(val===q.c)b.classList.add('correct');else if(b===btn&&!ok)b.classList.add('wrong');});
+  const fb=document.getElementById('feedback');
+  if(ok){
+    score++;serie++;if(serie>bestSerie)bestSerie=serie;
+    const enc=['Super ! ⭐','Bravo ! ⭐','Excellent ! ⭐','Parfait ! ⭐','Génial ! ⭐'];
+    fb.textContent=enc[Math.floor(Math.random()*enc.length)];fb.className='feedback ok';
+    launchPokeBee();
+  } else {
+    serie=0;fb.textContent='Pas tout à fait… La bonne réponse : '+q.p+' '+q.c;fb.className='feedback ko';
+  }
+  document.getElementById('score').textContent=score;
+  document.getElementById('serie').textContent=serie+(serie>=3?' 🔥':'');
+  document.getElementById('nxtbtn').style.display='';idx++;
+}
+
+function timeOut(){
+  if(answered)return;answered=true;const q=queue[idx];serie=0;
+  document.querySelectorAll('.cbtn').forEach(b=>{b.disabled=true;const val=b.textContent.replace(q.p+' ','');if(val===q.c)b.classList.add('correct');});
+  document.getElementById('feedback').textContent='⏰ Temps écoulé ! C\'était : '+q.p+' '+q.c;
+  document.getElementById('feedback').className='feedback ko';
+  document.getElementById('serie').textContent='0';
+  document.getElementById('nxtbtn').style.display='';idx++;
+}
+
+// ─── TRAJECTOIRE ABEILLE (sinusoïdale + ondulations aléatoires) ───────────────
+function launchPokeBee(){
+  const svgStr=POKES_FLY[Math.floor(Math.random()*POKES_FLY.length)];
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;width:60px;height:60px;pointer-events:none;z-index:9999;';
+  el.innerHTML=svgStr;
+  document.body.appendChild(el);
+
+  const goRight=Math.random()>0.5;
+  const W=window.innerWidth, H=window.innerHeight;
+  const startX=goRight?-70:W+70;
+  const endX=goRight?W+70:-70;
+  const baseY=H*(0.15+Math.random()*0.55);
+
+  // paramètres d'oscillation type "abeille"
+  const freq1=2+Math.random()*3;   // fréquence principale
+  const freq2=5+Math.random()*4;   // fréquence secondaire (frémissement)
+  const amp1=40+Math.random()*50;  // amplitude principale
+  const amp2=8+Math.random()*12;   // amplitude secondaire (frémissement)
+  const phase1=Math.random()*Math.PI*2;
+  const phase2=Math.random()*Math.PI*2;
+
+  let t0=null;
+  const dur=3000+Math.random()*2000;
+
+  function step(ts){
+    if(!t0)t0=ts;
+    const t=(ts-t0)/dur;
+    if(t>=1){el.remove();return;}
+    const x=startX+(endX-startX)*t;
+    const y=baseY + Math.sin(t*Math.PI*2*freq1+phase1)*amp1 + Math.sin(t*Math.PI*2*freq2+phase2)*amp2;
+    // légère rotation selon la direction
+    const dy=Math.cos(t*Math.PI*2*freq1+phase1)*amp1*0.3;
+    const angle=goRight?dy:-dy;
+    el.style.transform=`rotate(${angle}deg)`;
+    el.style.left=x+'px';
+    el.style.top=y+'px';
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function launchFW(){
+  const c=['#F7C948','#E24B4A','#2a9ad4','#78C850','#A890C8','#F06030'];
+  for(let i=0;i<28;i++){setTimeout(()=>{const el=document.createElement('div');el.style.cssText='position:fixed;left:'+(10+Math.random()*80)+'%;top:'+(10+Math.random()*80)+'%;width:8px;height:8px;border-radius:50%;background:'+c[Math.floor(Math.random()*c.length)]+';pointer-events:none;z-index:9998;';document.body.appendChild(el);const dx=(Math.random()-.5)*200,dy=(Math.random()-.5)*200;let s=null;function step(ts){if(!s)s=ts;const t=(ts-s)/900;if(t>=1){el.remove();return;}el.style.transform='translate('+dx*t+'px,'+dy*t+'px)';el.style.opacity=1-t;requestAnimationFrame(step);}requestAnimationFrame(step);},i*65);}
+}
+
+function launchMew(){
+  const el=document.createElement('div');el.style.cssText='position:fixed;width:80px;height:80px;pointer-events:none;z-index:10000;';el.innerHTML=POKES_END.mew;document.body.appendChild(el);
+  const W=window.innerWidth;
+  let s=null;function step(ts){if(!s)s=ts;const t=(ts-s)/2800;if(t>=1){el.remove();return;}
+  const x=-80+t*(W+160);
+  const y=window.innerHeight*0.2+Math.sin(t*Math.PI*6)*30+Math.sin(t*Math.PI*14)*8;
+  el.style.left=x+'px';el.style.top=y+'px';requestAnimationFrame(step);}requestAnimationFrame(step);
+}
+
+function endGame(){
+  document.getElementById('game-screen').style.display='none';document.getElementById('end-screen').style.display='';
+  const r=REWARDS[Math.min(score,10)];
+  document.getElementById('end-poke').innerHTML=POKES_END[r.poke];
+  document.getElementById('end-title').textContent=r.title;
+  document.getElementById('end-sub').textContent=r.sub;
+  const row=document.getElementById('end-stars-row');row.innerHTML='';
+  for(let i=0;i<3;i++){const s=document.createElement('span');s.textContent='★';s.className=i<r.stars?(r.blink?'blink':'lit'):'dim';row.appendChild(s);}
+  document.getElementById('final-score').textContent=score+'/'+queue.length;
+  document.getElementById('final-serie').textContent=bestSerie+(bestSerie>=3?' 🔥':'');
+  if(score===10){setTimeout(()=>{launchFW();launchMew();},400);setTimeout(launchFW,900);setTimeout(()=>{launchFW();launchMew();},1500);}
+}
+
+document.getElementById('timer-on').addEventListener('change',function(){timerOn=this.checked;document.getElementById('timer-secs').style.display=timerOn?'flex':'none';});
+document.querySelectorAll('.sec-chip').forEach(c=>{c.addEventListener('click',()=>{timerSecs=parseInt(c.dataset.s);document.querySelectorAll('.sec-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');});});
+goSetup();
+</script>
+</body>
+</html>
